@@ -1,0 +1,59 @@
+/* Estilos para el layout principal */
+.contenedor {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    margin: 0;
+  }
+  
+  /* Sección contenedora de listas */
+  .section {
+    background: #1249025f;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Titulares estilizados */
+  .section h2 {
+    font-size: 1rem;
+    color: #063901;
+    margin-bottom: 16px;
+  }
+  
+  /* Listas */
+  .section ul {
+    list-style: none;
+    padding: 0;
+
+  }
+  
+  .section ul li {
+    background: rgba(255, 255, 255, 0.518);
+    padding: 6px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.429);
+  }
+  
+  .LoginButton {
+    font-weight: bold;
+    color: #104a42d8;
+    text-decoration: none;
+    border: rgba(5, 85, 53, 0.749) 2px solid;
+    padding: 12px;
+    border-radius: 8%;
+
+  }
+  .loginbutton_div{
+    margin: 25px ;
+    
+  }
+  .LoginButton:hover {
+    text-decoration: underline;
+  }
+
+  .div_1{
+    display: flex;
+  }
