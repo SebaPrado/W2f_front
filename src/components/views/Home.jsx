@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"; // permite enviar acciones a Redux.
 import { Link } from "react-router-dom"; 
 import "/src/home.css";
 
-import { authUser, userProfile, logout } from "/src/redux/userSlice.js";
+import { authUser, userId, userName } from "/src/redux/userSlice.js";
 
 import TreeComponent from "../TreeComponent";
 import CreateTable from "../CreateTable";
@@ -14,6 +14,7 @@ import CreateTable from "../CreateTable";
 function Home() {
   const userEmail = useSelector((state) => state.user.email);
   console.log("userEmail",userEmail);
+  const userName = useSelector((state) => state.user.name);
   
   const dispatch = useDispatch();
 
@@ -89,7 +90,7 @@ function Home() {
          dispatch(authUser({ email: userData.email }));
 
          // Despachamos la acción para actualizar la identificación
-         dispatch(userProfile({ identification: userData.id }));
+         dispatch(userId({ identification: userData.id }));
           
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -110,7 +111,7 @@ function Home() {
           </Link>
         </div>
         <div className="loginbutton_div">
-          <h6>{usuario_info?.name || "Cargando nombre..."}</h6>
+          <h6> Bienvenido {userName || "Cargando nombre..."}</h6>
           <h6>{usuario_info?.last_name || "Cargando apellido..."}</h6>
           <h6>{userEmail || "Cargando email..."}</h6>
         </div>

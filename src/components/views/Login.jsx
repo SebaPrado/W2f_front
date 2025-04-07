@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "/src/login.css";
+import { useDispatch } from "react-redux";
+import { userId, userName } from "../../redux/userSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Establecer valores predeterminados para pruebas
@@ -38,8 +41,12 @@ function Login() {
       );
 
       if (response.data.token) {
-        console.log("token ",response.data.token);
-        
+        console.log("token ", response.data.token);
+        console.log("name ", response.data.userFirstname);
+
+        dispatch(userId({ identification: response.data.token }));
+        dispatch(userName({ name: response.data.userFirstname }));
+
         navigate("/"); // Redirigir solo si la respuesta tiene un token válido
       }
     } catch (err) {
