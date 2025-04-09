@@ -1,0 +1,75 @@
+/* Estilos para el layout principal */
+.home_body{
+    margin-top: 110px; 
+    background-color: rgba(125, 226, 158, 0.384);
+    /* padding: 30px 50px; */
+}
+/* Padding para pantallas grandes (por encima de 1500px) */
+@media (min-width: 1200px) {
+    .home_body {
+        padding: 30px 50px; /* Define padding suficiente para pantallas grandes */
+        max-width: 1200px; /* Limita el ancho máximo para evitar que la sección se expanda demasiado */
+        margin: 110px auto; /* Centra la sección */
+    }
+}
+
+/* Padding para pantallas medianas (entre 768px y 1200px) */
+@media (min-width: 768px) and (max-width: 1200px) {
+    .home_body {
+        padding: 120px 140px ; /* Ajusta los paddings para pantallas medianas */
+        max-width: 100%; /* Deja que ocupe todo el ancho disponible */
+    }
+}
+
+/* Padding para pantallas pequeñas (menores a 768px) */
+@media (max-width: 767px) {
+    .home_body {
+        padding: 110px 120px; /* Reduce los paddings para pantallas pequeñas */
+        max-width: 100%; /* Mantiene el ancho completo */
+    }
+}
+
+
+ 
+  /* Titulares estilizados */
+  .section h2 {
+    font-size: 1rem;
+    color: #063901;
+    margin-bottom: 16px;
+  }
+  
+  /* Listas */
+  .section ul {
+    list-style: none;
+    padding: 0;
+
+  }
+  
+  .section ul li {
+    background: rgba(255, 255, 255, 0.518);
+    padding: 6px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.429);
+  }
+  
+  .LoginButton {
+    font-weight: bold;
+    color: #104a42d8;
+    text-decoration: none;
+    border: rgba(5, 85, 53, 0.749) 2px solid;
+    padding: 12px;
+    border-radius: 8%;
+
+  }
+  .loginbutton_div{
+    margin: 25px ;
+    
+  }
+  .LoginButton:hover {
+    text-decoration: underline;
+  }
+
+  .div_1{
+    display: flex;
+  }

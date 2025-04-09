@@ -1,0 +1,9 @@
+.contenedor_casos {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    margin: 0;
+    justify-content: center;
+  }
+  

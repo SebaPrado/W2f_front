@@ -15,7 +15,7 @@ function Login() {
 
   useEffect(() => {
     // Establecer valores predeterminados para pruebas
-    setPassword("user2p");
+    setPassword("user2");
     setEmail("user3@gmail.com");
   }, []);
 
@@ -43,9 +43,12 @@ function Login() {
       if (response.data.token) {
         console.log("token ", response.data.token);
         console.log("name ", response.data.userFirstname);
+        console.log("identification ", response.data.id);
+
 
         dispatch(userId({ identification: response.data.token }));
         dispatch(userName({ name: response.data.userFirstname }));
+        dispatch(userId({identification: response.data.id}))
 
         navigate("/"); // Redirigir solo si la respuesta tiene un token válido
       }

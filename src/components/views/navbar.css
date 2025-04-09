@@ -1,0 +1,171 @@
+/* ============================         NAVBAR         ==========================*/
+
+/* Estilos para el AppBar */
+.custom-app-bar {
+    width: 100%;
+    max-width: 640px;
+    height: 62px;
+    background-color:  #fcfcfc !important;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgb(8, 88, 1) !important; 
+    z-index: 10000 !important;
+  }
+  
+  /* Estilos para el contenedor de botones */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Estilos para los botones */
+  .custom-button {
+    text-transform: none !important;
+    border-radius: 9999px !important;
+    padding: 2px 16px !important;
+    height: calc(100% - 12px) !important;
+    color: #013d0e !important;
+    font-family: "Montserrat", sans-serif !important;
+    letter-spacing: 1px !important;
+    /* font-weight: bolder !important; */
+  }
+  
+  .custom-button:hover {
+    background-color: var(--red) !important;
+    color: #037228 !important;
+  }
+  
+  /* Estilos para el contenedor principal */
+  .main-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 60%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .main-container.scrolled {
+    background-color: rgba(173, 69, 69, 0.8);
+  }
+  
+  .sticky {
+    position: fixed;
+    top: 0;
+    left: 20%;
+    z-index: 1;
+  }
+  
+  @media screen and (min-width: 1100px) {
+    .main-container {
+      width: 50%;
+    }
+    .sticky {
+      position: fixed;
+      top: 0;
+      left: 25%;
+      z-index: 1;
+    }
+  }
+  
+  /* Estilos responsivos */
+  @media screen and (max-width: 600px) {
+    .main-container {
+      background-color: transparent;
+      padding-top: 0;
+      padding-bottom: 0;
+      width: 100% !important;
+    }
+    .sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  
+    .custom-app-bar {
+      max-width: 100%;
+      background-color: transparent !important;
+      box-shadow: none !important;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 56px;
+    }
+  
+    .button-container {
+      display: none;
+    }
+  
+    .menu-icon {
+      display: block !important;
+    }
+  
+    .custom-toolbar {
+      padding: 0 !important;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  
+    /* Ajuste del tamaño y posición del botón hamburguesa */
+    .menu-icon-button {
+      padding: 8px !important;
+      margin: 0 16px 0 0 !important;
+      color: rgb(248, 7, 7) !important; /* Cambia el color del icono a negro */
+    }
+  
+    /* Eliminar el margen izquierdo adicional */
+    .MuiIconButton-edgeStart {
+      margin-left: 0 !important;
+    }
+  }
+  
+  /* Ocultar el botón hamburguesa en pantallas más grandes que 600px */
+  @media (min-width: 601px) {
+    .menu-icon-button {
+      display: none !important;
+    }
+  }
+  
+  /* Estilos responsivos para el Navbar */
+  @media screen and (max-width: 450px) {
+    .custom-app-bar {
+      width: 100% !important;
+      height: 56px !important;
+      border-radius: 0 !important;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  
+    .custom-toolbar {
+      padding: 0 !important;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  
+    /* Ajuste del tamaño y posición del botón hamburguesa */
+    .menu-icon-button {
+      padding: 8px !important;
+      margin: 0 16px 0 0 !important;
+      color: rgb(233, 5, 5) !important;
+    }
+  
+    /* Eliminar el margen izquierdo adicional */
+    .MuiIconButton-edgeStart {
+      margin-left: 0 !important;
+    }
+  }
+  
+  /* Estilo para ocultar el icono de menú en pantallas grandes */
+  .menu-icon {
+    display: none;
+  }
