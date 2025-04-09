@@ -35,11 +35,11 @@ function Casos() {
 
   return (
     
-    <div>
+    <div className="contenedor_casos_padre">
       <div>
         <h4>lista de cultivos</h4>
       </div>
-      <div className="contenedor_casos">
+      <div className="contenedor_casos_hijo">
         {farmersCropsLists.length > 0 ? (
           farmersCropsLists.map((item) => (
             <Caso key={item.id} casoData={item} />

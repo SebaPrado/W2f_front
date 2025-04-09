@@ -72,4 +72,7 @@
 
   .div_1{
     display: flex;
+    flex-direction: column;
+    background-color: rgba(108, 201, 54, 0.096);
+    align-items: center;
   }
