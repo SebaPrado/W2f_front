@@ -72,11 +72,11 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "",
+        path: "/0",
         element: <Home />,
       },
       {
-        path: "/0",
+        path: "",
         element: <Home0 />,
       },
       {

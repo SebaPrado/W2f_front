@@ -32,7 +32,7 @@ const Home0 = () => {
             <p className="mb-5">
               Datos en tiempo real para decisiones agrícolas
             </p>
-            <button className="cta-button">Contactanos</button>
+            <button className="cta-button">Suscribirse ahora</button>
           </div>
         </section>
 
@@ -45,7 +45,7 @@ const Home0 = () => {
           <div className="services-container">
             <div className="service-card">
               <div className="service-icon">
-                <i className="service-img web-design"></i>
+                <img className="service-img web-design"></img>
               </div>
               <h3>Calculadora de margenes</h3>
               <p>
@@ -210,7 +210,7 @@ const Home0 = () => {
         {/* Features Section */}
         <section className="features-section">
           <div className="section-title light">
-            <h2>¿POR QUÉ ELEGIRNOS?</h2>
+            <h2>¿Por que elegirnos?</h2>
             <div className="title-divider light"></div>
           </div>
           <div className="features-container">
@@ -484,12 +484,12 @@ const Home0 = () => {
         {/* Call to Action Section */}
         <section className="cta-section">
           <div className="cta-content">
-            <h2>¿LISTO PARA IMPULSAR TU NEGOCIO?</h2>
+            <h2>¿Listo para impulsar tu negocio?</h2>
             <p>
               Contáctanos hoy mismo y comienza a vender en línea con una tienda
               profesional
             </p>
-            <button className="cta-button">SOLICITAR PRESUPUESTO</button>
+            <button className="cta-button">Solicitar Presupuesto</button>
           </div>
         </section>
       </div>
