@@ -24,9 +24,9 @@ const Home0 = () => {
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-content">
-            <div className="logo_father">
+            {/* <div className="logo_father">
               <div className="logo"></div>
-            </div>
+            </div> */}
             <h1>What to farm </h1>
             {/* <h2>Datos en tiempo real para decisiones agrícolas</h2> */}
             <p className="mb-5">
@@ -39,7 +39,7 @@ const Home0 = () => {
         {/* Services Section */}
         <section className="services-section">
           <div className="section-title">
-            <h2>NUESTROS SERVICIOS</h2>
+            <h2>Nuestros servicios</h2>
             <div className="title-divider"></div>
           </div>
           <div className="services-container">
@@ -47,30 +47,36 @@ const Home0 = () => {
               <div className="service-icon">
                 <i className="service-img web-design"></i>
               </div>
-              <h3>Diseño Web</h3>
+              <h3>Calculadora de margenes</h3>
               <p>
-                Creamos sitios web atractivos, responsivos y optimizados para
-                todos los dispositivos.
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt
+                eum quos commodi repudiandae aspernatur rem totam error beatae,
+                alias maxime libero cum assumenda maiores minus excepturi saepe
+                sint voluptatibus labore.
               </p>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="service-img ecommerce"></i>
               </div>
-              <h3>Tiendas Online</h3>
+              <h3>Precios de commodities e insumos en tiempo real </h3>
               <p>
-                Desarrollamos tiendas virtuales completas con gestión de
-                inventario y pagos seguros.
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt
+                eum quos commodi repudiandae aspernatur rem totam error beatae,
+                alias maxime libero cum assumenda maiores minus excepturi saepe
+                sint voluptatibus labore.
               </p>
             </div>
             <div className="service-card">
               <div className="service-icon">
                 <i className="service-img seo-marketing"></i>
               </div>
-              <h3>SEO y Marketing</h3>
+              <h3>Indicadores commericales y productivos </h3>
               <p>
-                Mejoramos la visibilidad de tu negocio con estrategias de SEO y
-                marketing digital.
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt
+                eum quos commodi repudiandae aspernatur rem totam error beatae,
+                alias maxime libero cum assumenda maiores minus excepturi saepe
+                sint voluptatibus labore.
               </p>
             </div>
           </div>
@@ -93,7 +99,7 @@ const Home0 = () => {
         {/* Crop Costs Section */}
         <section className="crop-costs-section">
           <div className="section-title">
-            <h2>ANÁLISIS DE COSTOS DE CULTIVOS</h2>
+            <h2>Analisis de margenes de cultivos </h2>
             <div className="title-divider"></div>
           </div>
           <div className="crops-container">
@@ -249,40 +255,40 @@ const Home0 = () => {
         {/* Process Section */}
         <section className="process-section">
           <div className="section-title">
-            <h2>NUESTRO PROCESO</h2>
+            <h2>Suscripciones</h2>
             <div className="title-divider"></div>
           </div>
           <div className="process-container">
             <div className="process-step">
               <div className="step-number">1</div>
-              <h3>Planificación</h3>
+              <h3>Free</h3>
               <p>
-                Analizamos tus necesidades y planificamos la estructura de tu
-                tienda online.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
+                repellendus voluptate atque officia pers
               </p>
             </div>
             <div className="process-step">
               <div className="step-number">2</div>
-              <h3>Diseño</h3>
+              <h3>Basic</h3>
               <p>
-                Creamos un diseño atractivo y funcional que refleje la identidad
-                de tu marca.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
+                repellendus voluptate atque officia pers
               </p>
             </div>
             <div className="process-step">
               <div className="step-number">3</div>
-              <h3>Desarrollo</h3>
+              <h3>Full</h3>
               <p>
-                Implementamos todas las funcionalidades necesarias para tu
-                tienda online.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
+                repellendus voluptate atque officia pers
               </p>
             </div>
             <div className="process-step">
               <div className="step-number">4</div>
-              <h3>Lanzamiento</h3>
+              <h3>Premium</h3>
               <p>
-                Realizamos pruebas exhaustivas antes de lanzar tu tienda al
-                mercado.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
+                repellendus voluptate atque officia pers
               </p>
             </div>
           </div>
@@ -291,7 +297,7 @@ const Home0 = () => {
         {/* FAQ Section */}
         <section className="faq-section">
           <div className="section-title">
-            <h2>PREGUNTAS FRECUENTES</h2>
+            <h2>Preguntas frecuentes </h2>
             <div className="title-divider"></div>
           </div>
           <div className="faq-container">
@@ -309,11 +315,11 @@ const Home0 = () => {
                 className={`faq-answer ${expandedFaqs[1] ? "expanded" : ""}`}
               >
                 <p>
-                  El margen bruto es la diferencia entre los ingresos totales y
-                  los costos directos asociados con la producción. En
-                  agricultura, representa la ganancia por hectárea después de
-                  restar los costos de insumos y arrendamiento del ingreso bruto
-                  generado por la venta de cultivos.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Explicabo aliquam dolores, aspernatur sapiente totam
+                  voluptatum unde corrupti numquam quisquam maiores dolor
+                  dolorem? Reiciendis, at mollitia earum nam voluptate omnis
+                  dolorum!
                 </p>
               </div>
             </div>

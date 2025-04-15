@@ -48,9 +48,9 @@ function Navbar() {
 
   const menuItems = [
     { label: "Home", onClick: () => scrollToSection("home") },
-    { label: "AI", onClick: () => scrollToSection("ai") },
-    { label: "Projects", onClick: () => scrollToSection("projects") },
-    { label: "Resume", onClick: handleResumeClick },
+    { label: "Servicios", onClick: () => scrollToSection("ai") },
+    { label: "Sobre nosotros", onClick: () => scrollToSection("projects") },
+    { label: "FAQ", onClick: handleResumeClick },
   ];
 
   return (
