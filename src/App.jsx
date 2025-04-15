@@ -63,6 +63,8 @@ import Layout from "./components/views/Layout";
 import Home from "./components/views/Home";
 import SignUp from "./components/views/SignUp";
 import Login from "./components/views/Login";
+import Home0 from "./components/views/Home0";
+
 
 const router = createBrowserRouter([
   {
@@ -72,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "/0",
+        element: <Home0 />,
       },
       {
         path: "signup",

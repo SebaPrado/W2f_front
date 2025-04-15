@@ -5,8 +5,8 @@
     width: 100%;
     max-width: 640px;
     height: 62px;
-    background-color:  #fcfcfc !important;
-    border-radius: 10px;
+    background-color:  #fcfcfc8f !important;
+    border-radius: 10px 2px;
     box-shadow: 0 1px 3px rgb(8, 88, 1) !important; 
     z-index: 10000 !important;
   }
@@ -30,11 +30,13 @@
     font-family: "Montserrat", sans-serif !important;
     letter-spacing: 1px !important;
     /* font-weight: bolder !important; */
+    transition: transform 0.9s ease-in-out;
   }
   
   .custom-button:hover {
-    background-color: var(--red) !important;
-    color: #037228 !important;
+    background-color: rgba(42, 49, 1, 0.301) !important;
+    color: #ffffffd3 !important;
+    transform: scale(1.1);
   }
   
   /* Estilos para el contenedor principal */
