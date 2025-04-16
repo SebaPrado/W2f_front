@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Home0.css";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
+
 // import "./home.css";
 
 const Home0 = () => {
@@ -21,7 +23,8 @@ const Home0 = () => {
         <Navbar />
       </div>
       <div className="home-container">
-        {/* Hero Section */}
+      { /*----------------------------                     "Hero"  Section                 --------------------------------------- */}
+
         <section className="hero-section">
           <div className="hero-content">
             {/* <div className="logo_father">
@@ -36,8 +39,9 @@ const Home0 = () => {
           </div>
         </section>
 
-        {/* Services Section */}
-        <section className="services-section">
+        { /*----------------------------                 Nuestros servicios"  Section                 --------------------------------- */}
+
+        <section className="services-section" id="Servicios">
           <div className="section-title">
             <h2>Nuestros servicios</h2>
             <div className="title-divider"></div>
@@ -82,7 +86,8 @@ const Home0 = () => {
           </div>
         </section>
 
-        {/* Parallax Section */}
+        { /*----------------------------                     " Parallax"  Section                 --------------------------------------- */}
+
         <section className="parallax-section">
           <div className="parallax-content">
             <h2>
@@ -92,11 +97,14 @@ const Home0 = () => {
               Para customizar todos tus costos e insumos y obtener tus márgenes
               más exactos, contrata la membresía.
             </p>
-            <button className="cta-button">Suscribirse ahora</button>
+            <Link to={`/login`}>
+              <button className="cta-button">Ingesar</button>
+            </Link>
           </div>
         </section>
 
-        {/* Crop Costs Section */}
+        {/* -----------------------             Crop Costs Section                ------------------------*/}
+
         <section className="crop-costs-section">
           <div className="section-title">
             <h2>Analisis de margenes de cultivos </h2>
@@ -171,7 +179,8 @@ const Home0 = () => {
               </div>
             </div>
 
-            {/* Trigo */}
+            {/*----------------             Trigo        --------------------- */}
+
             <div className="crop-card">
               <h3 className="crop-title">Trigo</h3>
               <div className="crop-data">
@@ -207,53 +216,58 @@ const Home0 = () => {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="features-section">
+        {/* /*----------------------------                     "Por que elegirnos"  Section                 --------------------------------------- */}
+
+        <section className="features-section" >
           <div className="section-title light">
             <h2>¿Por que elegirnos?</h2>
-            <div className="title-divider light"></div>
+            <div className="title-divider2 light"></div>
           </div>
           <div className="features-container">
             <div className="feature-item">
               <div className="feature-icon">
                 <i className="feature-img responsive"></i>
               </div>
-              <h3>Diseño Responsivo</h3>
+              <h3>Margenes</h3>
               <p>
-                Tu sitio web se adaptará perfectamente a cualquier dispositivo.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                necessitatibus, minus reiciendis..
               </p>
             </div>
             <div className="feature-item">
               <div className="feature-icon">
                 <i className="feature-img seo"></i>
               </div>
-              <h3>Optimización SEO</h3>
+              <h3> Actualidad</h3>
               <p>
-                Posicionamiento en buscadores para aumentar tu visibilidad
-                online.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                necessitatibus, minus reiciendis..
               </p>
             </div>
             <div className="feature-item">
               <div className="feature-icon">
                 <i className="feature-img support"></i>
               </div>
-              <h3>Soporte Continuo</h3>
-              <p>Asistencia técnica y mantenimiento para tu tienda online.</p>
+              <h3>Comunidad</h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In necessitatibus, minus  reiciendis..
+              </p>
             </div>
             <div className="feature-item">
               <div className="feature-icon">
                 <i className="feature-img security"></i>
               </div>
-              <h3>Seguridad Garantizada</h3>
+              <h3>Otros</h3>
               <p>
-                Protección de datos y transacciones seguras para tus clientes.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In necessitatibus, minus  reiciendis..
               </p>
             </div>
           </div>
         </section>
 
-        {/* Process Section */}
-        <section className="process-section">
+        {/*-------------------------------                 Process Section                     ------------------------------- */}
+
+        <section className="process-section" id="suscripciones">
           <div className="section-title">
             <h2>Suscripciones</h2>
             <div className="title-divider"></div>
@@ -262,6 +276,8 @@ const Home0 = () => {
             <div className="process-step">
               <div className="step-number">1</div>
               <h3>Free</h3>
+              <h5> gratis. </h5>
+
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
                 repellendus voluptate atque officia pers
@@ -270,6 +286,8 @@ const Home0 = () => {
             <div className="process-step">
               <div className="step-number">2</div>
               <h3>Basic</h3>
+              <h5> 2 u$s / mes.  </h5>
+
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
                 repellendus voluptate atque officia pers
@@ -278,24 +296,19 @@ const Home0 = () => {
             <div className="process-step">
               <div className="step-number">3</div>
               <h3>Full</h3>
+              <h5> 2 u$s / mes.  </h5>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
                 repellendus voluptate atque officia pers
               </p>
             </div>
-            <div className="process-step">
-              <div className="step-number">4</div>
-              <h3>Premium</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-                repellendus voluptate atque officia pers
-              </p>
-            </div>
+           
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="faq-section">
+                {/* /*----------------------------                     "FAQ"  Section                 --------------------------------------- */}
+
+        <section className="faq-section" id="faq">
           <div className="section-title">
             <h2>Preguntas frecuentes </h2>
             <div className="title-divider"></div>

@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+
 // import resumePDF from "../../CV_Sebastian_Prado.pdf";
 
 const theme = createTheme({
@@ -23,7 +25,7 @@ const theme = createTheme({
 
 function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  
+  const navigate = useNavigate();
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -47,10 +49,14 @@ function Navbar() {
   };
 
   const menuItems = [
-    { label: "Home", onClick: () => scrollToSection("home") },
-    { label: "Servicios", onClick: () => scrollToSection("ai") },
-    { label: "Sobre nosotros", onClick: () => scrollToSection("projects") },
-    { label: "FAQ", onClick: handleResumeClick },
+    { label: "Home", onClick: () => scrollToSection("Home") },
+    { label: "Servicios", onClick: () => scrollToSection("Servicios") },
+    { label: "Suscripciones", onClick: () => scrollToSection("suscripciones") },
+    { label: "FAQ", onClick: () => scrollToSection("faq") },
+    {
+      label: "Login",
+      onClick: () => navigate("/login"),
+    },
   ];
 
   return (

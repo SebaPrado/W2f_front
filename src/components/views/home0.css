@@ -3,9 +3,10 @@
   --c2: #283618ff;
   --c3: #fefae0ff;
   --c4: #dda15eff;
-  /* --c5: rgba(49, 240, 151, 0.76); */
-  --c5 : #ff6b6b;
+  --c5: rgba(3, 116, 50, 0.644);
+  --c5: #ff6b6b;
   /* --c5: #efa7207e; */
+  --c6: rgb(181, 244, 74);
 }
 /* Main Container */
 
@@ -21,19 +22,19 @@ section {
   padding: 80px 20px;
 }
 
-  /* ----------------------------------               Hero section    >>>>                -------------------------- */
+/* ----------------------------------               Hero section    >>>>                -------------------------- */
 
 @keyframes moveBackground {
-    0% {
-      background-position: center 50%;
-    }
-    50% {
-      background-position: center 59%;
-    }
-    100% {
-        background-position: center 50%;
-      }
+  0% {
+    background-position: center 50%;
   }
+  50% {
+    background-position: center 59%;
+  }
+  100% {
+    background-position: center 50%;
+  }
+}
 
 .hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),
@@ -47,7 +48,7 @@ section {
   position: relative;
   overflow: hidden;
   z-index: 0;
-  animation: moveBackground 10s ease-in-out  alternate;
+  animation: moveBackground 10s ease-in-out alternate;
 }
 
 .hero-section::after {
@@ -94,29 +95,29 @@ section {
   margin-left: auto;
   margin-right: auto;
 }
-.logo_father{
-    display: flex;
-    justify-content: center;
-
+.logo_father {
+  display: flex;
+  justify-content: center;
 }
 .logo {
-    background-image: url("/public/img/wtf1.png");
-    opacity: 0.5;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 130px;
-    width: 130px;
-    border-radius: 10px;
-  }
-  
-  /* ----------------------------------               Button   >>>>                  ---------------------------- */
+  background-image: url("/public/img/wtf1.png");
+  opacity: 0.5;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 130px;
+  width: 130px;
+  border-radius: 10px;
+}
+
+/* ----------------------------------               Button   >>>>                  ---------------------------- */
 
 /* CTA Button */
 .cta-button {
-    background: linear-gradient(to right, white, var(--c5));
-    color: var(--c2);
-    
+  /* background: linear-gradient(to right, white, var(--c5)); */
+  background-color: var(--c6);
+  color: var(--c2);
+
   border: none;
   padding: 12px 30px;
   font-size: 18px;
@@ -132,7 +133,7 @@ section {
   transform: scale(1.1);
 }
 
-  /* ----------------------------------              title section    >>>>                  ---------------------------- */
+/* ----------------------------------              title section    >>>>                  ---------------------------- */
 
 .section-title {
   text-align: center;
@@ -141,27 +142,25 @@ section {
 
 .section-title h2 {
   font-size: 36px;
-  font-weight: 400;
+  font-weight: 300;
   margin-bottom: 15px;
   letter-spacing: 1px;
- color: #005021;
+  color: #00180a;
 }
 
 .title-divider {
   width: 90px;
-  height: 1.5px;
+  height: 1px;
   background-color: #005021;
-  ;
   margin: 0 auto;
 }
 
 .section-title.light h2,
-.title-divider.light {
-  color: white;
-  /* background-color: rgb(1, 66, 10); */
+.title-divider2 {
+  color: white !important;
 }
 
-  /* ----------------------------------               Parallax Section   >>>>                  ---------------------------- */
+/* ----------------------------------               Parallax Section   >>>>                  ---------------------------- */
 
 .parallax-section {
   position: relative;
@@ -208,7 +207,7 @@ section {
 
 .parallax-content h2 span {
   display: block;
-  color: #ff6b6b;
+  color: var(--c6);
 }
 
 .parallax-content p {
@@ -219,8 +218,7 @@ section {
   margin-right: auto;
 }
 
-  /* ----------------------------------              Services Section   >>>>                  ---------------------------- */
-
+/* ----------------------------------              Services Section   >>>>                  ---------------------------- */
 
 .services-section {
   background-color: #f9f9f9;
@@ -254,12 +252,11 @@ section {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color:  #005021;
+  background-color: #005021;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  
 }
 
 .service-img {
@@ -272,18 +269,15 @@ section {
 }
 
 .web-design {
-    background-image: url("/public/img/wtf1.png");
-
+  background-image: url("/public/img/wtf1.png");
 }
 
 .ecommerce {
-    background-image: url("/public/img/wtf1.png");
-
+  background-image: url("/public/img/wtf1.png");
 }
 
 .seo-marketing {
-    background-image: url("/public/img/wtf1.png");
-
+  background-image: url("/public/img/wtf1.png");
 }
 
 .service-card h3 {
@@ -297,7 +291,7 @@ section {
   color: #666;
 }
 
-  /* ----------------------------------              Crop costs Section   >>>>                  ---------------------------- */
+/* ----------------------------------              Crop costs Section   >>>>                  ---------------------------- */
 
 .crop-costs-section {
   background-color: #fff8ee;
@@ -388,11 +382,11 @@ section {
   min-width: 120px;
 }
 
-  /* ----------------------------------               Features Section   >>>>                  ---------------------------- */
+/* ----------------------------------               Features Section   >>>>                  ---------------------------- */
 
 .features-section {
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-  url("../../../public/img/bg1.jpg")  center/cover no-repeat;
+    url("../../../public/img/bg1.jpg") center/cover no-repeat;
   color: rgb(255, 255, 255);
 }
 
@@ -450,15 +444,16 @@ section {
 .feature-item h3 {
   font-size: 22px;
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 .feature-item p {
   color: #ccc;
   font-size: 16px;
+  font-weight: 200;
 }
 
-  /* ----------------------------------               Process Section   >>>>                  ---------------------------- */
+/* ----------------------------------               Suscripciones  Section   >>>>                  ---------------------------- */
 
 .process-section {
   background-color: #f9f9f9;
@@ -482,28 +477,29 @@ section {
 .step-number {
   width: 60px;
   height: 60px;
-  background-color: #ff6b6b;
+  background-color: var(--c6);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 300;
   color: white;
 }
 
 .process-step h3 {
   font-size: 22px;
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .process-step p {
   color: #666;
+  font-weight: 300;
 }
 
-  /* ----------------------------------               FAQ Section   >>>>                  ---------------------------- */
+/* ----------------------------------               FAQ Section   >>>>                  ---------------------------- */
 
 .faq-section {
   background-color: #f9f9f9;
@@ -534,19 +530,19 @@ section {
 }
 
 .faq-question.active {
-  background-color: #ff6b6b;
+  background-color: var(--c2);
   color: white;
 }
 
 .faq-question h3 {
   margin: 0;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .faq-toggle {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 300;
   transition: transform 0.3s ease;
 }
 
@@ -557,7 +553,7 @@ section {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.6s ease-in-out;
   background-color: white;
 }
 
@@ -582,7 +578,7 @@ section {
   margin-bottom: 8px;
 }
 
-  /* ----------------------------------              CTA Section   >>>>                  ---------------------------- */
+/* ----------------------------------              CTA Section   >>>>                  ---------------------------- */
 
 .cta-section {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
@@ -599,13 +595,14 @@ section {
 
 .cta-content h2 {
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 300;
   margin-bottom: 20px;
 }
 
 .cta-content p {
   font-size: 18px;
   margin-bottom: 30px;
+  font-weight: 200;
 }
 
 /* Responsive Media Queries */

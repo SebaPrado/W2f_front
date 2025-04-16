@@ -50,7 +50,7 @@ function Login() {
         dispatch(userName({ name: response.data.userFirstname }));
         dispatch(userId({identification: response.data.id}))
 
-        navigate("/"); // Redirigir solo si la respuesta tiene un token válido
+        navigate("/0"); // Redirigir solo si la respuesta tiene un token válido
       }
     } catch (err) {
       console.error("Error en el login", err);
