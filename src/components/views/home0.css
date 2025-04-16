@@ -267,28 +267,34 @@ section {
   background-repeat: no-repeat;
   background-position: center;
 }
+.service-img h2{
+    color: var(--c6);
+    font-weight: 100;
+}
 
 .web-design {
-  background-image: url("/public/img/wtf1.png");
+  /* background-image: url("/public/img/wtf1.png"); */
 }
 
 .ecommerce {
-  background-image: url("/public/img/wtf1.png");
+  /* background-image: url("/public/img/wtf1.png"); */
 }
 
 .seo-marketing {
-  background-image: url("/public/img/wtf1.png");
+  /* background-image: url("/public/img/wtf1.png"); */
 }
 
 .service-card h3 {
   font-size: 24px;
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: 300;
   color: #005021;
 }
 
 .service-card p {
-  color: #666;
+  color: #2e2e2e;
+  font-weight: 200;
+
 }
 
 /* ----------------------------------              Crop costs Section   >>>>                  ---------------------------- */
@@ -364,7 +370,7 @@ section {
   flex-direction: column;
   justify-content: center;
   color: #007d35;
-  font-weight: 700;
+  font-weight: 550;
   padding: 15px 20px;
   flex: 1;
 }
@@ -376,7 +382,7 @@ section {
   background-color: #007d35;
   color: white;
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 500;
   padding: 15px 30px;
   border-radius: 0 0 0 15px;
   min-width: 120px;

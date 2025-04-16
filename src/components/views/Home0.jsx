@@ -49,7 +49,9 @@ const Home0 = () => {
           <div className="services-container">
             <div className="service-card">
               <div className="service-icon">
-                <img className="service-img web-design"></img>
+                <i className="service-img web-design">
+                    <h2>m</h2>
+                </i>
               </div>
               <h3>Calculadora de margenes</h3>
               <p>
@@ -61,7 +63,10 @@ const Home0 = () => {
             </div>
             <div className="service-card">
               <div className="service-icon">
-                <i className="service-img ecommerce"></i>
+                <i className="service-img ecommerce">
+                <h2>p</h2>
+
+                </i>
               </div>
               <h3>Precios de commodities e insumos en tiempo real </h3>
               <p>
@@ -73,7 +78,10 @@ const Home0 = () => {
             </div>
             <div className="service-card">
               <div className="service-icon">
-                <i className="service-img seo-marketing"></i>
+                <i className="service-img seo-marketing">
+                <h2>i</h2>
+
+                </i>
               </div>
               <h3>Indicadores commericales y productivos </h3>
               <p>
