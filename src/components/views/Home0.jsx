@@ -511,12 +511,22 @@ const Home0 = () => {
         {/* Call to Action Section */}
         <section className="cta-section">
           <div className="cta-content">
+            <div>
             <h2>¿Listo para impulsar tu negocio?</h2>
             <p>
-              Contáctanos hoy mismo y comienza a vender en línea con una tienda
+              Contáctanos hoy mismo y accede a tu calculadora 
               profesional
             </p>
-            <button className="cta-button">Solicitar Presupuesto</button>
+            </div>
+            <div className="h">
+              <Link to={`/login`}>
+                <div className="btn_gr_father2">
+                  <div className="btn_father2">
+                    <button className="cta-button ">Contacto</button>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </section>
       </div>
