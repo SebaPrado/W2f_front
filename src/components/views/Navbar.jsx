@@ -52,7 +52,7 @@ function Navbar() {
     { label: "Home", onClick: () => scrollToSection("Home") },
     { label: "Servicios", onClick: () => scrollToSection("Servicios") },
     { label: "Suscripciones", onClick: () => scrollToSection("suscripciones") },
-    { label: "FAQ", onClick: () => scrollToSection("faq") },
+    // { label: "FAQ", onClick: () => scrollToSection("faq") },
     {
       label: "Login",
       onClick: () => navigate("/login"),

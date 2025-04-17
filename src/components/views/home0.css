@@ -7,6 +7,8 @@
   --c5: #ff6b6b;
   /* --c5: #efa7207e; */
   --c6: rgb(181, 244, 74);
+  --c6: rgb(174, 199, 36);
+
 }
 /* Main Container */
 
@@ -60,19 +62,20 @@ section {
   left: -10%;
   background-color: #fbfcfc;
   border-radius: 60%;
-  z-index: 1;
+  z-index: 1 ;
   transform: translateY(1px); /* Esta es la clave para eliminar la línea */
 }
 
 .hero-content {
   max-width: 800px;
   padding: 0 20px;
+  position: relative;
 }
 
 .hero-content h1 {
   font-size: 88px;
   font-weight: 100;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   margin-top: 20px;
   letter-spacing: 2px;
   /* color: #ff6b6b; */
@@ -117,6 +120,7 @@ section {
   /* background: linear-gradient(to right, white, var(--c5)); */
   background-color: var(--c6);
   color: var(--c2);
+  color: white;
 
   border: none;
   padding: 12px 30px;
@@ -131,6 +135,60 @@ section {
 
 .cta-button:hover {
   transform: scale(1.1);
+}
+
+/*             b1             */
+.btn_gr_father{
+    display: flex;
+    justify-content: center;
+    /* position: absolute; */
+    z-index: 2 !important;
+}
+.btn_father{
+    margin-top: -68px;
+    z-index: 3;
+    position: absolute;
+}
+
+.btn_father::after{
+    background:  rgba(93, 95, 59, 0.76);
+    position: absolute;
+    content: '';
+    filter: blur(25px) saturate(1.5);
+    width: 100%;
+    height: 100%;
+    scale: 1.03 !important;
+    z-index: -1 !important;
+    transform: translateX(-220px)
+
+}
+/*              b2                 */
+.btn_gr_father2{
+    display: flex;
+    justify-content: center;
+    /* position: absolute; */
+    z-index: 2 !important;
+}
+.btn_father2{
+    /* margin-top: -68px; */
+    z-index: 3;
+    position: relative;
+}
+
+.btn_father2::after{
+    background:  rgba(93, 95, 59, 0.76);
+    position: absolute;
+    content: '';
+    filter: blur(25px) saturate(1.5);
+    width: 100%;
+    height: 100%;
+    scale: 1.09 !important;
+    z-index: -1 !important;
+    transform: translateX(-115px)
+
+}
+.h{
+    position: relative;
 }
 
 /* ----------------------------------              title section    >>>>                  ---------------------------- */
@@ -186,10 +244,11 @@ section {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  z-index: 0;
 }
 
 .parallax-content {
+    /* display: flex; */
   position: relative;
   z-index: 2;
   max-width: 800px;
@@ -257,7 +316,14 @@ section {
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
+  contain: content;
 }
+.service-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* esto recorta sin deformar */
+    border-radius: 50%; /* para que siga siendo circular */
+  }
 
 .service-img {
   width: 40px;
@@ -421,6 +487,12 @@ section {
   justify-content: center;
   margin: 0 auto 20px;
 }
+.feature-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* esto recorta sin deformar */
+    border-radius: 50%; /* para que siga siendo circular */
+  }
 
 .feature-img {
   width: 35px;

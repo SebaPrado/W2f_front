@@ -23,23 +23,27 @@ const Home0 = () => {
         <Navbar />
       </div>
       <div className="home-container">
-      { /*----------------------------                     "Hero"  Section                 --------------------------------------- */}
+        {/*----------------------------                     "Hero"  Section                 --------------------------------------- */}
 
         <section className="hero-section">
           <div className="hero-content">
             {/* <div className="logo_father">
               <div className="logo"></div>
             </div> */}
-            <h1>What to farm </h1>
+            <h1>What To Farm</h1>
             {/* <h2>Datos en tiempo real para decisiones agrícolas</h2> */}
             <p className="mb-5">
               Datos en tiempo real para decisiones agrícolas
             </p>
-            <button className="cta-button">Suscribirse ahora</button>
           </div>
         </section>
+        <div className="btn_gr_father">
+          <div className="btn_father">
+            <button className="cta-button ">Suscribirse ahora</button>
+          </div>
+        </div>
 
-        { /*----------------------------                 Nuestros servicios"  Section                 --------------------------------- */}
+        {/*----------------------------                 Nuestros servicios"  Section                 --------------------------------- */}
 
         <section className="services-section" id="Servicios">
           <div className="section-title">
@@ -49,9 +53,7 @@ const Home0 = () => {
           <div className="services-container">
             <div className="service-card">
               <div className="service-icon">
-                <i className="service-img web-design">
-                    <h2>m</h2>
-                </i>
+                <img src="/public/img/calculator.png" alt="" />
               </div>
               <h3>Calculadora de margenes</h3>
               <p>
@@ -63,10 +65,7 @@ const Home0 = () => {
             </div>
             <div className="service-card">
               <div className="service-icon">
-                <i className="service-img ecommerce">
-                <h2>p</h2>
-
-                </i>
+                <img src="/public/img/chart.png" alt="" />
               </div>
               <h3>Precios de commodities e insumos en tiempo real </h3>
               <p>
@@ -78,10 +77,7 @@ const Home0 = () => {
             </div>
             <div className="service-card">
               <div className="service-icon">
-                <i className="service-img seo-marketing">
-                <h2>i</h2>
-
-                </i>
+                <img src="/public/img/trigo.png" alt="" />
               </div>
               <h3>Indicadores commericales y productivos </h3>
               <p>
@@ -94,20 +90,28 @@ const Home0 = () => {
           </div>
         </section>
 
-        { /*----------------------------                     " Parallax"  Section                 --------------------------------------- */}
+        {/*----------------------------                     " Parallax"  Section                 --------------------------------------- */}
 
         <section className="parallax-section">
           <div className="parallax-content">
-            <h2>
-              Aprovechá todo <span>nuestro potencial</span>
-            </h2>
-            <p>
-              Para customizar todos tus costos e insumos y obtener tus márgenes
-              más exactos, contrata la membresía.
-            </p>
-            <Link to={`/login`}>
-              <button className="cta-button">Ingesar</button>
-            </Link>
+            <div>
+              <h2>
+                Aprovechá todo <span>nuestro potencial</span>
+              </h2>
+              <p>
+                Para customizar todos tus costos e insumos y obtener tus
+                márgenes más exactos, contrata la membresía.
+              </p>
+            </div>
+            <div className="h">
+              <Link to={`/login`}>
+                <div className="btn_gr_father2">
+                  <div className="btn_father2">
+                    <button className="cta-button ">Login</button>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -125,23 +129,23 @@ const Home0 = () => {
               <div className="crop-data">
                 <div className="crop-row">
                   <span className="crop-label">Precio del grano</span>
-                  <span className="crop-value">172</span>
+                  <span className="crop-value">210</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Rinde</span>
-                  <span className="crop-value">2</span>
+                  <span className="crop-value">8.0</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Ingreso</span>
-                  <span className="crop-value">345</span>
+                  <span className="crop-value">1550</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Costo Arrendamiento</span>
-                  <span className="crop-value">128</span>
+                  <span className="crop-value">380</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Costo Insumos</span>
-                  <span className="crop-value">25</span>
+                  <span className="crop-value">1150</span>
                 </div>
               </div>
               <div className="margin-container">
@@ -149,33 +153,34 @@ const Home0 = () => {
                   <span>Margen</span>
                   <span>Bruto</span>
                 </div>
-                <div className="margin-value">221</div>
+                <div className="margin-value">220</div>
               </div>
             </div>
 
-            {/* Soja */}
+            {/*  ----------           Soja             --------------*/}
+
             <div className="crop-card">
               <h3 className="crop-title">Soja</h3>
               <div className="crop-data">
                 <div className="crop-row">
                   <span className="crop-label">Precio del grano</span>
-                  <span className="crop-value">172</span>
+                  <span className="crop-value">370</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Rinde</span>
-                  <span className="crop-value">2</span>
+                  <span className="crop-value">2.3</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Ingreso</span>
-                  <span className="crop-value">345</span>
+                  <span className="crop-value">760</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Costo Arrendamiento</span>
-                  <span className="crop-value">128</span>
+                  <span className="crop-value">330</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Costo Insumos</span>
-                  <span className="crop-value">25</span>
+                  <span className="crop-value">460</span>
                 </div>
               </div>
               <div className="margin-container">
@@ -183,7 +188,7 @@ const Home0 = () => {
                   <span>Margen</span>
                   <span>Bruto</span>
                 </div>
-                <div className="margin-value">221</div>
+                <div className="margin-value">280</div>
               </div>
             </div>
 
@@ -194,23 +199,23 @@ const Home0 = () => {
               <div className="crop-data">
                 <div className="crop-row">
                   <span className="crop-label">Precio del grano</span>
-                  <span className="crop-value">172</span>
+                  <span className="crop-value">175</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Rinde</span>
-                  <span className="crop-value">2</span>
+                  <span className="crop-value">4</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Ingreso</span>
-                  <span className="crop-value">345</span>
+                  <span className="crop-value">645</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Costo Arrendamiento</span>
-                  <span className="crop-value">128</span>
+                  <span className="crop-value">228</span>
                 </div>
                 <div className="crop-row">
                   <span className="crop-label">Costo Insumos</span>
-                  <span className="crop-value">25</span>
+                  <span className="crop-value">560</span>
                 </div>
               </div>
               <div className="margin-container">
@@ -218,7 +223,7 @@ const Home0 = () => {
                   <span>Margen</span>
                   <span>Bruto</span>
                 </div>
-                <div className="margin-value">221</div>
+                <div className="margin-value">185</div>
               </div>
             </div>
           </div>
@@ -226,7 +231,7 @@ const Home0 = () => {
 
         {/* /*----------------------------                     "Por que elegirnos"  Section                 --------------------------------------- */}
 
-        <section className="features-section" >
+        <section className="features-section">
           <div className="section-title light">
             <h2>¿Por que elegirnos?</h2>
             <div className="title-divider2 light"></div>
@@ -234,7 +239,7 @@ const Home0 = () => {
           <div className="features-container">
             <div className="feature-item">
               <div className="feature-icon">
-                <i className="feature-img responsive"></i>
+                <img src="/public/img/chart.png" alt="" />
               </div>
               <h3>Margenes</h3>
               <p>
@@ -244,7 +249,7 @@ const Home0 = () => {
             </div>
             <div className="feature-item">
               <div className="feature-icon">
-                <i className="feature-img seo"></i>
+                <img src="/public/img/trigo.png" alt="" />
               </div>
               <h3> Actualidad</h3>
               <p>
@@ -254,20 +259,22 @@ const Home0 = () => {
             </div>
             <div className="feature-item">
               <div className="feature-icon">
-                <i className="feature-img support"></i>
+                <img src="/public/img/chart.png" alt="" />
               </div>
               <h3>Comunidad</h3>
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In necessitatibus, minus  reiciendis..
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                necessitatibus, minus reiciendis..
               </p>
             </div>
             <div className="feature-item">
               <div className="feature-icon">
-                <i className="feature-img security"></i>
+                <img src="/public/img/calculator.png" alt="" />
               </div>
               <h3>Otros</h3>
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In necessitatibus, minus  reiciendis..
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                necessitatibus, minus reiciendis..
               </p>
             </div>
           </div>
@@ -284,7 +291,7 @@ const Home0 = () => {
             <div className="process-step">
               <div className="step-number">1</div>
               <h3>Free</h3>
-              <h5> gratis. </h5>
+              <h5> 0 u$s/ mes. </h5>
 
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
@@ -294,7 +301,7 @@ const Home0 = () => {
             <div className="process-step">
               <div className="step-number">2</div>
               <h3>Basic</h3>
-              <h5> 2 u$s / mes.  </h5>
+              <h5> 2 u$s / mes. </h5>
 
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
@@ -304,17 +311,16 @@ const Home0 = () => {
             <div className="process-step">
               <div className="step-number">3</div>
               <h3>Full</h3>
-              <h5> 2 u$s / mes.  </h5>
+              <h5>4 u$s / mes. </h5>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
                 repellendus voluptate atque officia pers
               </p>
             </div>
-           
           </div>
         </section>
 
-                {/* /*----------------------------                     "FAQ"  Section                 --------------------------------------- */}
+        {/* /*----------------------------                     "FAQ"  Section                 --------------------------------------- */}
 
         <section className="faq-section" id="faq">
           <div className="section-title">
