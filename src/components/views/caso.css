@@ -6,3 +6,34 @@
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 
 }
+
+/* Añadir a tu archivo casos.css */
+
+.edit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    /* Posicionamiento dentro del caso (ajustar según necesites) */
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    /* Z-index alto para asegurar que está por encima de otros elementos */
+    z-index: 10;
+  }
+  
+  .edit-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Asegurar que el contenedor del caso tenga posición relativa */
+  .caso-container {
+    position: relative;
+  }

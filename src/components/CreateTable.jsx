@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "/src/create_table.css";
+import "./create_table.css";
 
 function CreateTable() {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ function CreateTable() {
             <div className="row">
               <div className="col-md-6 mb-3">
                 <label htmlFor="user_id" className="form-label">
-                  ID de Usuario (obligatorio)
+                  ID de Usuario *
                 </label>
                 <input
                   type="text"
@@ -104,7 +104,7 @@ function CreateTable() {
               </div>
               <div className="col-md-6 mb-3">
                 <label htmlFor="crop_id" className="form-label">
-                  ID de Cultivo (obligatorio)
+                  ID de Cultivo*
                 </label>
                 <input
                   type="text"
@@ -121,7 +121,7 @@ function CreateTable() {
             <div className="row">
               <div className="col-md-4 mb-3">
                 <label htmlFor="yield" className="form-label">
-                  Rendimiento (obligatorio)
+                  Rendimiento *
                 </label>
                 <input
                   type="number"
@@ -135,7 +135,7 @@ function CreateTable() {
               </div>
               <div className="col-md-4 mb-3">
                 <label htmlFor="price" className="form-label">
-                  Precio (obligatorio)
+                  Precio *
                 </label>
                 <input
                   type="number"
@@ -149,7 +149,7 @@ function CreateTable() {
               </div>
               <div className="col-md-4 mb-3">
                 <label htmlFor="production_costs" className="form-label">
-                  Costos de Producción (obligatorio)
+                  Costos de Producción *
                 </label>
                 <input
                   type="number"
@@ -166,7 +166,7 @@ function CreateTable() {
             <div className="row">
               <div className="col-md-4 mb-3">
                 <label htmlFor="gross_income" className="form-label">
-                  Ingreso Bruto (obligatorio)
+                  Ingreso Bruto*
                 </label>
                 <input
                   type="number"
@@ -180,7 +180,7 @@ function CreateTable() {
               </div>
               <div className="col-md-4 mb-3">
                 <label htmlFor="commercialization" className="form-label">
-                  Comercialización (obligatorio)
+                  Comercialización *
                 </label>
                 <input
                   type="number"
@@ -194,7 +194,7 @@ function CreateTable() {
               </div>
               <div className="col-md-4 mb-3">
                 <label htmlFor="freight_costs" className="form-label">
-                  Costos de Flete (obligatorio)
+                  Costos de Flete *
                 </label>
                 <input
                   type="number"
@@ -211,7 +211,7 @@ function CreateTable() {
             <div className="row">
               <div className="col-md-4 mb-3">
                 <label htmlFor="net_income" className="form-label">
-                  Ingreso Neto (obligatorio)
+                  Ingreso Neto *
                 </label>
                 <input
                   type="number"

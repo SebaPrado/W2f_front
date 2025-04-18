@@ -8,6 +8,8 @@ import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 function Casos() {
   const id = useSelector((state) => state.user.identification);
   const [loading, setLoading] = useState(true);
+  // Estado para controlar qué cultivo se está editando
+  const [editingCropId, setEditingCropId] = useState(null);
 
   // Initialize with empty array - we'll update this after fetching data
   const [parentRef, farmersCropsLists, setFarmersCropsLists, updateConfig] =
@@ -52,6 +54,14 @@ function Casos() {
     }
   }, [farmersCropsLists, loading]);
 
+  // Función para manejar la edición de un cultivo
+  const handleEditCrop = (cropId) => {
+    setEditingCropId(cropId);
+    // Aquí puedes implementar la lógica de edición
+    // Por ejemplo, abrir un modal o navegar a una página de edición
+    console.log("Editando cultivo con ID:", cropId);
+  };
+
   if (loading) {
     return <div>Cargando cultivos...</div>;
   }
@@ -66,13 +76,18 @@ function Casos() {
           farmersCropsLists.map((item) => (
             // Envuelve cada Caso en un div que pueda recibir las clases de arrastre
             <div key={item.id} className="caso-container">
-              <Caso casoData={item} />
+              <Caso 
+                casoData={item} 
+                onEdit={handleEditCrop} 
+              />
             </div>
           ))
         ) : (
           <p>No hay cultivos disponibles</p>
         )}
       </div>
+      
+      {/* Aquí podrías añadir un modal o formulario de edición que se muestre cuando editingCropId no sea null */}
     </div>
   );
 }

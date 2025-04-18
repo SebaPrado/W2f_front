@@ -1,0 +1,53 @@
+.formdiv{
+    background-color: rgba(3, 132, 74, 0.514);
+    font-family: "Montserrat", sans-serif;
+}
+/* create_table.css */
+
+.container {
+    width: 100%;
+    max-width: 800px; /* Ajusta el ancho máximo según sea necesario */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+    padding: 20px;
+  }
+  
+  .glass-box {
+    background-color: rgba(255, 255, 255, 0.15); /* Fondo semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  .formdiv {
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 30px;
+  }
+  
+  .form-label {
+    color: var(--c2); /* Color del texto (blanco) */
+  }
+  
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.747); /* Fondo semi-transparente */
+    color: var(--c2); /* Color del texto (blanco) */
+    border-color: rgba(255, 255, 255, 0.3); /* Borde semi-transparente */
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d; /* Color de fondo gris oscuro */
+    color: #ffffff; /* Color del texto (blanco) */
+    border: none;
+  }
+  
+  .btn-dark {
+    background-color: #343a40; /* Color de fondo gris */
+    color: #ffffff; /* Color del texto (blanco) */
+    border: none;
+  }
+  
+  .btn-dark:hover,
+  .btn-secondary:hover {
+    filter: brightness(90%); /* Efecto de brillo al pasar el cursor */
+  }
+  
