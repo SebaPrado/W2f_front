@@ -64,6 +64,7 @@ import Home from "./components/views/Home";
 import SignUp from "./components/views/SignUp";
 import Login from "./components/views/Login";
 import Home0 from "./components/views/Home0";
+import Dashboard  from "./components/views/Dashboard";
 
 
 const router = createBrowserRouter([
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "db",
+        element: <Dashboard />,
       },
     ],
   },

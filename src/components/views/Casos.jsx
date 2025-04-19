@@ -76,17 +76,14 @@ function Casos() {
           farmersCropsLists.map((item) => (
             // Envuelve cada Caso en un div que pueda recibir las clases de arrastre
             <div key={item.id} className="caso-container">
-              <Caso 
-                casoData={item} 
-                onEdit={handleEditCrop} 
-              />
+              <Caso casoData={item} onEdit={handleEditCrop} />
             </div>
           ))
         ) : (
           <p>No hay cultivos disponibles</p>
         )}
       </div>
-      
+
       {/* Aquí podrías añadir un modal o formulario de edición que se muestre cuando editingCropId no sea null */}
     </div>
   );

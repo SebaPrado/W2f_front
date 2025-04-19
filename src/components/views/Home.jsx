@@ -7,7 +7,7 @@ import "./home.css";
 import Navbar from "./Navbar";
 import CreateTable from "../CreateTable";
 import Casos from "./Casos";
-import Modal from "./Modal"
+import Modal from "./Modal";
 
 function Home() {
   const userEmail = useSelector((state) => state.user.email);
@@ -68,9 +68,8 @@ function Home() {
           </Link>
         </div>
         <div className="loginbutton_div">
-          <h6> Usuario:  {userName || "Cargando nombre..."}</h6>
+          <h6> Usuario: {userName || "Cargando nombre..."}</h6>
           <h6>id : {id || "Cargando id..."}</h6>
-          {/* <h6>{userEmail || "Cargando email..."}</h6> */}
         </div>
       </div>
 
@@ -81,7 +80,7 @@ function Home() {
       <div>
         <CreateTable />
       </div>
-       <Modal/>
+      <Modal />
     </div>
   );
 }

@@ -30,7 +30,7 @@ const Home0 = () => {
             {/* <div className="logo_father">
               <div className="logo"></div>
             </div> */}
-            <h1>What To Farm</h1>
+            <h1>What 2 Farm</h1>
             {/* <h2>Datos en tiempo real para decisiones agrícolas</h2> */}
             <p className="mb-5">
               Datos en tiempo real para decisiones agrícolas
