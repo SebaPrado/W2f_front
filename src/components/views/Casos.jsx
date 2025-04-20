@@ -2,89 +2,101 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Caso from "./Caso";
-import "./casos.css";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
+import "./casos.css";
 
 function Casos() {
-  const id = useSelector((state) => state.user.identification);
+  // Obtener ID del usuario desde Redux
+  const userId = useSelector((state) => state.user.identification);
+  
+  // Estados
   const [loading, setLoading] = useState(true);
-  // Estado para controlar qué cultivo se está editando
   const [editingCropId, setEditingCropId] = useState(null);
+  
+  // Configuración de drag and drop
+  const [parentRef, crops, setCrops] = useDragAndDrop([], {
+    sortable: true,
+    classes: {
+      active: "caso-dragging",
+      over: "caso-drag-over",
+      source: "caso-drag-source",
+      ghost: "caso-drag-ghost",
+    },
+  });
 
-  // Initialize with empty array - we'll update this after fetching data
-  const [parentRef, farmersCropsLists, setFarmersCropsLists, updateConfig] =
-    useDragAndDrop([], {
-      sortable: true,
-      // Optional: Add styling for drag operations
-      classes: {
-        active: "caso-dragging", // Elemento que estás arrastrando
-        over: "caso-drag-over", // Elemento sobre el que arrastras
-        source: "caso-drag-source", // Posición original del elemento
-        ghost: "caso-drag-ghost", // "Fantasma" (copia visual durante arrastre)
-      },
-    });
-
+  // Obtener cultivos del agricultor al cargar el componente
   useEffect(() => {
     const fetchFarmersCrops = async () => {
+      if (!userId) return;
+      
       try {
+        setLoading(true);
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/farmers_crops/mis_cultivos/${id}`
+          `${import.meta.env.VITE_API_URL}/farmers_crops/mis_cultivos/${userId}`
         );
-        // Update the drag-and-drop managed state
-        setFarmersCropsLists(response.data);
-        setLoading(false);
+        setCrops(response.data);
       } catch (error) {
         console.error("Error al obtener datos de cultivos:", error);
+      } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchFarmersCrops();
-    }
-  }, [id, setFarmersCropsLists]);
+    fetchFarmersCrops();
+  }, [userId, setCrops]);
 
-  // Optional: Add effect to save reordered items to backend
+  // Guardar orden después de drag and drop
   useEffect(() => {
-    // Only run this effect after initial loading
-    if (!loading && farmersCropsLists.length > 0) {
-      // You could implement a save function here if needed
-      // For example, send the new order to your backend
-      // This would run whenever the order changes due to drag and drop
-    }
-  }, [farmersCropsLists, loading]);
+    const saveNewOrder = async () => {
+      // Solo guardar si ya cargaron los datos y hay cultivos
+      if (!loading && crops.length > 0) {
+        // Aquí implementarías la lógica para guardar el nuevo orden en el backend
+        // Por ejemplo:
+        // await axios.post('/api/save-crop-order', { crops });
+        console.log("Nuevo orden de cultivos:", crops);
+      }
+    };
+    
+    // Descomenta esta línea cuando implementes la función de guardar
+    // saveNewOrder();
+  }, [crops, loading]);
 
   // Función para manejar la edición de un cultivo
   const handleEditCrop = (cropId) => {
     setEditingCropId(cropId);
-    // Aquí puedes implementar la lógica de edición
-    // Por ejemplo, abrir un modal o navegar a una página de edición
     console.log("Editando cultivo con ID:", cropId);
+    // Aquí implementarías la apertura de un modal de edición o navegación
   };
 
+  // Renderizar mensaje de carga
   if (loading) {
-    return <div>Cargando cultivos...</div>;
+    return <div className="loading-container">Cargando cultivos...</div>;
   }
 
   return (
     <div className="contenedor_casos_padre">
-      <div>
-        <h4>lista de cultivos</h4>
+      <div className="casos-header">
+        <h4>Lista de cultivos</h4>
       </div>
+      
       <div className="contenedor_casos_hijo" ref={parentRef}>
-        {farmersCropsLists.length > 0 ? (
-          farmersCropsLists.map((item) => (
-            // Envuelve cada Caso en un div que pueda recibir las clases de arrastre
-            <div key={item.id} className="caso-container">
-              <Caso casoData={item} onEdit={handleEditCrop} />
+        {crops.length > 0 ? (
+          crops.map((crop) => (
+            <div key={crop.id} className="caso-container">
+              <Caso casoData={crop} onEdit={handleEditCrop} />
             </div>
           ))
         ) : (
-          <p>No hay cultivos disponibles</p>
+          <p className="no-crops-message">No hay cultivos disponibles</p>
         )}
       </div>
-
-      {/* Aquí podrías añadir un modal o formulario de edición que se muestre cuando editingCropId no sea null */}
+      
+      {/* Aquí iría el modal o formulario de edición que se mostraría cuando editingCropId tiene valor */}
+      {editingCropId && (
+        // Placeholder para el componente de edición
+        // <EditCropModal cropId={editingCropId} onClose={() => setEditingCropId(null)} />
+        null
+      )}
     </div>
   );
 }

@@ -83,7 +83,7 @@ function Dashboard() {
       <h3>Lista de Cultivos</h3>
       <div className="crops-grid">
         {crops.map((crop) => (
-          <div key={crop.id} className="crop-card">
+          <div key={crop.id} className="crop_card">
             {editingCrop === crop.id ? (
               <form onSubmit={handleSubmit} className="edit-form">
                 <div className="form-group">

@@ -26,8 +26,7 @@
   padding: 20px;
 }
 
-.crop-card {
-  /* background: red; */
+.crop_card {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 4px 2px 4px 4px rgba(1, 80, 1, 0.459);
@@ -35,12 +34,13 @@
   min-height: 170px;
 }
 
-.crop-card h3 {
+.crop_card h3 {
   margin: 0 0 10px 0;
-  color: #2c3e50;
+  color: #04680d;
+  font-weight: 300;
 }
 
-.crop-card p {
+.crop_card p {
   margin: 0 0 15px 0;
   color: #666;
 }

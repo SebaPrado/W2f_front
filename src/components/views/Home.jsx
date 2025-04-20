@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import CreateTable from "../CreateTable";
 import Casos from "./Casos";
 import Modal from "./Modal";
+import CrearCaso from "./CrearCaso";
 
 function Home() {
   const userEmail = useSelector((state) => state.user.email);
@@ -81,6 +82,13 @@ function Home() {
         <CreateTable />
       </div>
       <Modal />
+      <div>
+        <Link to="/crear_caso">
+          <button className="crear_caso">
+            Crear caso
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

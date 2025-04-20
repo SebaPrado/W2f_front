@@ -387,7 +387,8 @@ section {
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: -4px 1px 17px 1px rgba(1, 80, 1, 0.459);
+
 }
 
 .crop-title {

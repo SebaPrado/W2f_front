@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import "./modal.css"
 import CreateTable from "../CreateTable";
 
@@ -31,7 +30,7 @@ function TransitionsModal() {
 
   return (
     <div>
-      <Button className="openmodal" onClick={handleOpen}>Crear caso</Button>
+      <Button className="openmodal" onClick={handleOpen}>Crear caso (via modal)</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
