@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import "./crear_caso.css";
 import { Button } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { Link } from "react-router-dom";
 
 function CrearCaso() {
   const userId = useSelector((state) => state.user.identification);
@@ -414,8 +415,15 @@ function CrearCaso() {
               Guardar Caso
             </button>
           </form>
+          
+
         </div>
       )}
+        <div>
+        <Link to="/0">
+          <button className="crear_caso">Atras</button>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -1,21 +1,42 @@
-/* Estilos para el layout principal */
-.home_body {
-  margin-top: 110px;
-  background-color: rgba(125, 226, 158, 0.384);
-  /* padding: 30px 50px; */
+/*-------------------       Estilos para el Hero Section         -------------------*/
+.hero_section_container {
+  font-family: "Montserrat", sans-serif;
+}
+.hero_section {
+  height: 80vh; /* Un poco menos de 100vh */
+  background: linear-gradient(
+      90deg,
+      rgba(15, 29, 18, 0.92) 0%,
+      rgba(15, 29, 18, 0.82) 10%,
+
+      rgba(36, 82, 55, 0.699) 66%,
+      rgba(183, 214, 130, 0.336) 100%
+    ),
+    url("/img/bg1.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  color: white;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), 0 100%);
+}
+.hero_div_1 {
+  margin-top: 70px;
+  /* background-color: lightgreen; */
 }
 /* Padding para pantallas grandes (por encima de 1500px) */
 @media (min-width: 1200px) {
-  .home_body {
+  .hero_div_1 {
     padding: 30px 50px; /* Define padding suficiente para pantallas grandes */
     max-width: 1200px; /* Limita el ancho máximo para evitar que la sección se expanda demasiado */
-    margin: 110px auto; /* Centra la sección */
   }
 }
 
 /* Padding para pantallas medianas (entre 768px y 1200px) */
 @media (min-width: 768px) and (max-width: 1200px) {
-  .home_body {
+  .hero_div_1 {
     padding: 120px 140px; /* Ajusta los paddings para pantallas medianas */
     max-width: 100%; /* Deja que ocupe todo el ancho disponible */
   }
@@ -23,46 +44,24 @@
 
 /* Padding para pantallas pequeñas (menores a 768px) */
 @media (max-width: 767px) {
-  .home_body {
+  .hero_div_1 {
     padding: 110px 120px; /* Reduce los paddings para pantallas pequeñas */
     max-width: 100%; /* Mantiene el ancho completo */
   }
 }
 
 /* Titulares estilizados */
-.section h2 {
-  font-size: 1rem;
-  color: #063901;
+.hero_section h2 {
+  font-size: 2.6rem;
+  font-weight: 200;
+  color: rgba(235, 234, 234, 0.884);
   margin-bottom: 16px;
 }
-
-/* Listas */
-.section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.section ul li {
-  background: rgba(255, 255, 255, 0.518);
-  padding: 6px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.429);
-}
-
-.LoginButton {
-  font-weight: bold;
-  color: #104a42d8;
-  text-decoration: none;
-  border: rgba(5, 85, 53, 0.749) 2px solid;
-  padding: 12px;
-  border-radius: 8%;
-}
-.loginbutton_div {
-  margin: 25px;
-}
-.LoginButton:hover {
-  text-decoration: underline;
+.hero_section h6 {
+  font-size: 1.4rem;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.801);
+  margin-bottom: 16px;
 }
 
 .div_1 {
@@ -79,4 +78,45 @@
   border: none;
   border-radius: 10px;
   color: rgb(255, 255, 255);
+}
+.hero_div_2 h4 {
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.801);
+  margin-bottom: 16px;
+  margin-left: 50px;
+}
+
+.precios_cultivos {
+  /* background-color: aqua; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 20px 30px;
+  text-align: center;
+}
+
+.precio_cultivo {
+  background-color: rgba(21, 73, 1, 0);
+  padding: 4px 20px;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  font-weight: 200;
+}
+
+.mis_casos {
+  padding: 10px 20px;
+  background-color: rgba(22, 73, 1, 0.322);
+  font-family: "Montserrat", sans-serif !important;
+  border: none;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.icono_precio_alza {
+  color: green;
+}
+
+.icono_precio_baja {
+  color: red;
 }

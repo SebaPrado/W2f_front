@@ -58,21 +58,21 @@ function Casos() {
     fetchFarmersCrops();
   }, [userId, token, setCrops]);
 
-  // Guardar orden después de drag and drop
-  useEffect(() => {
-    const saveNewOrder = async () => {
-      // Solo guardar si ya cargaron los datos y hay cultivos
-      if (!loading && crops.length > 0) {
-        // Aquí implementarías la lógica para guardar el nuevo orden en el backend
-        // Por ejemplo:
-        // await axios.post('/api/save-crop-order', { crops });
-        console.log("Nuevo orden de cultivos:", crops);
-      }
-    };
+//   // Guardar orden después de drag and drop
+//   useEffect(() => {
+//     const saveNewOrder = async () => {
+//       // Solo guardar si ya cargaron los datos y hay cultivos
+//       if (!loading && crops.length > 0) {
+//         // Aquí implementarías la lógica para guardar el nuevo orden en el backend
+//         // Por ejemplo:
+//         // await axios.post('/api/save-crop-order', { crops });
+//         // console.log("Nuevo orden de cultivos:", crops);
+//       }
+//     };
 
-    // Descomenta esta línea cuando implementes la función de guardar
-    // saveNewOrder();
-  }, [crops, loading]);
+//     // Descomenta esta línea cuando implementes la función de guardar
+//     // saveNewOrder();
+//   }, [crops, loading]);
 
   // Función para manejar la edición de un cultivo
   const handleEditCrop = (cropId) => {
@@ -94,8 +94,8 @@ function Casos() {
 
   return (
     <div className="contenedor_casos_padre">
-      <div className="casos-header">
-        <h4>Lista de cultivos</h4>
+      <div className="contenedor_casos_header">
+        <h4>Mis casos</h4>
       </div>
 
       <div className="contenedor_casos_hijo" ref={parentRef}>

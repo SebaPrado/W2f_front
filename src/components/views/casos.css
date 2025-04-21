@@ -1,5 +1,6 @@
 .contenedor_casos_padre {
-  background-color: antiquewhite;
+  /* background-color: antiquewhite; */
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,55 +15,62 @@
   justify-content: center;
 }
 
+.contenedor_casos_header  h4{
+    margin-bottom: 25px;
+    font-weight: 200 !important;
+    border-bottom: 1px solid #03641498;
+    padding-bottom: 7px;
+}
+
 /*  -----------------       drag operation         ---------------  */
-.contenedor_casos_hijo > .caso-dragging,
-div.caso-dragging {
-  opacity: 0.6 !important;
-  background-color: #f5f5f5 !important;
+/* .contenedor_casos_hijo > .caso-dragging, */
+/* div.caso-dragging {
+  opacity: 0.9 !important;
+  background-color: #dd1010 !important;
   transform: rotate(1deg) scale(1.02) !important;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
   border: 2px solid #3498db !important;
   z-index: 1000 !important;
   transition: all 0.15s ease !important;
-}
+} */
 
 /* Add styles for drag operation */
 /* /Elemento que estás arrastrando actualmente /  */
-.caso-dragging {
+/* .caso-dragging {
   opacity: 0.6 !important;
-  background-color: #f5f5f5 !important;
-  transform: rotate(1deg) scale(1.02);
+  background-color: #f5f5f5;
+  transform: rotate(1deg) scale(1.2);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   border: 2px solid #3498db !important;
   z-index: 1000;
   transition: all 0.15s ease;
-}
+} */
 
 /* Elemento sobre el cual estás arrastrando (posible destino) */
-.caso-drag-over {
+/* .caso-drag-over {
   border: 2px dashed #3498db !important;
   background-color: rgba(52, 152, 219, 0.1) !important;
   transform: scale(1.03);
   transition: all 0.2s ease;
-}
+} */
 
 /* Posición original del elemento que estás arrastrando */
-.caso-drag-source {
+/* .caso-drag-source {
   opacity: 0.3;
   background-color: #f9f9f9;
-}
+} */
 
 /* "Fantasma" - copia visual que sigue al cursor mientras arrastras */
-.caso-drag-ghost {
+/* .caso-drag-ghost {
   opacity: 0.8;
   background-color: #e8f4fd !important;
   border: 1px solid #3498db !important;
-}
+} */
 
 /* Haz que los elementos parezcan arrastrables */
 .contenedor_casos_hijo > * {
   cursor: grab;
-  transition: all 0.2s ease;
+  transition: all 1s ease;
 }
 
 /* Cuando el usuario está arrastrando activamente */
