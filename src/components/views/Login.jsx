@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "/src/login.css";
 import { useDispatch } from "react-redux";
-import { userId, userName } from "../../redux/userSlice";
+import { userId, userName, userToken } from "../../redux/userSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -45,16 +45,16 @@ function Login() {
         console.log("name ", response.data.userFirstname);
         console.log("identification ", response.data.id);
 
+        dispatch(userToken({ token: response.data.token }));
 
-        dispatch(userId({ identification: response.data.token }));
+        dispatch(userId({ identification: response.data.id }));
         dispatch(userName({ name: response.data.userFirstname }));
-        dispatch(userId({identification: response.data.id}))
 
-        navigate("/0"); // Redirigir solo si la respuesta tiene un token válido
+        navigate("/0");
       }
     } catch (err) {
       console.error("Error en el login", err);
-      setError(err.response?.data?.msg || "Error en el inicio de sesión seba");
+      setError(err.response?.data?.msg || "Error en el inicio de sesión");
     }
   };
 

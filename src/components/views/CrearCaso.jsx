@@ -3,9 +3,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import "./crear_caso.css";
 import { Button } from "@mui/material";
-// Import for animations
-// import { motion, AnimatePresence } from "framer-motion";
-
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 function CrearCaso() {
@@ -34,64 +31,47 @@ function CrearCaso() {
     dosage: "",
   });
 
-  // Lista de cultivos disponibles
+  // Lista de cultivos disponibles con IDs asignados
   const cultivoOptions = [
-    "Soja",
-    "Maíz",
-    "Sorgo",
-    "Trigo",
-    "Cebada",
-    "Canola",
-    "Girasol",
-    "Arroz",
-    "Calinata",
-    "Centeno",
-    "Avena",
+    { id: 1, name: "Soja" },
+    { id: 2, name: "Maíz" },
+    { id: 3, name: "Sorgo" },
+    { id: 4, name: "Trigo" },
+    { id: 5, name: "Cebada" },
+    { id: 6, name: "Canola" },
+    { id: 7, name: "Girasol" },
+    { id: 8, name: "Arroz" },
+    { id: 9, name: "Calinata" },
+    { id: 10, name: "Avena" },
+    { id: 11, name: "Centeno" },
   ];
 
   //-----------            Obtener la lista de cultivos al cargar el componente            ------------------//
-
+  // This useEffect is not really needed since we're using the cultivoOptions array now
+  // We could keep it if you want to fetch all crops initially
   useEffect(() => {
-    const fetchCrops = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/crops`
-        );
-        console.log("Cultivos obtenidos:", response.data);
-        setCrops(response.data);
-      } catch (error) {
-        console.error("Error al obtener cultivos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCrops();
+    // You can leave this empty or remove it if you don't need to fetch all crops initially
   }, []);
 
-  // -------------            Manejar la selección de cultivo  ( . find )          ------------------//
-
-  const handleCropSelection = async (cropName) => {
+  // -------------            Manejar la selección de cultivo          ------------------//
+  const handleCropSelection = async (cropId, cropName) => {
     try {
       setLoading(true);
-      // Normalizar el nombre del cultivo para la comparación
-      const normalizedCropName = cropName
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-      const selectedCropData = crops.find((crop) => {
-        const normalizedDbName = crop.name
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        return normalizedDbName === normalizedCropName;
-      });
+      // Now we fetch the specific crop data by ID
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/crops/${cropId}`
+      );
 
-      if (selectedCropData) {
-        setSelectedCrop(cropName);
-        setCropDetails(selectedCropData);
+      console.log("Cultivo obtenido:", response.data);
+
+      // Set the selected crop and its details
+      if (response.data) {
+        setSelectedCrop(response.data.name);
+        setCropDetails(response.data);
+
         // Establecer el rinde predeterminado si existe
-        if (selectedCropData.rinde) {
-          setRinde(selectedCropData.rinde.toString());
+        if (response.data.rinde_promedio) {
+          setRinde(response.data.rinde_promedio.toString());
         } else {
           setRinde("");
         }
@@ -178,33 +158,37 @@ function CrearCaso() {
       return;
     }
 
+    // Verificar los valores antes de enviar
+    console.log("userId:", userId);
+    console.log("cropDetails:", cropDetails);
+
+    if (!userId || !cropDetails || !cropDetails.id) {
+      alert("El user_id y el crop_id son obligatorios.");
+      return;
+    }
+
     try {
       const ingresosBrutos = calcularIngreso();
       const costosProduccion = calculateTotalProductionCosts();
 
-      // Preparar los datos para enviar
       const dataToSend = {
         user_id: Number(userId),
         crop_id: Number(cropDetails.id),
-        crop_name: cropDetails.name,
+        
         yield: Number(rinde),
         price: Number(isManualPrice ? manualPrice : cropDetails.price),
-        // Ahora incluimos los costos de producción calculados
         production_costs: costosProduccion,
         gross_income: ingresosBrutos,
         commercialization: 0,
         freight_costs: 0,
-        net_income: ingresosBrutos - costosProduccion, // Ingreso neto actualizado
-        // Campos opcionales
+        net_income: ingresosBrutos - costosProduccion,
         lease_cost_usd: 0,
         lease_cost_kg: 0,
-        // Podríamos también guardar el detalle de los items
         cost_items: costItems,
       };
 
       console.log("Datos a enviar:", dataToSend);
 
-      // Crear caso con los datos seleccionados
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/farmers_crops`,
         dataToSend
@@ -240,14 +224,14 @@ function CrearCaso() {
         <div className="cultivos_grid">
           {cultivoOptions.map((cultivo) => (
             <div
-              key={cultivo}
+              key={cultivo.id}
               className={`cultivo_card ${
-                selectedCrop === cultivo ? "selected" : ""
+                selectedCrop === cultivo.name ? "selected" : ""
               }`}
-              onClick={() => handleCropSelection(cultivo)}
+              onClick={() => handleCropSelection(cultivo.id, cultivo.name)}
             >
               <div className="cultivo_icon">🌱</div>
-              <div className="cultivo_name">{cultivo}</div>
+              <div className="cultivo_name">{cultivo.name}</div>
             </div>
           ))}
         </div>

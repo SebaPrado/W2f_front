@@ -63,11 +63,12 @@ function Home() {
         <Navbar />
       </div>
       <div className="div_1">
-        <div className="loginbutton_div">
+        {/* <div className="loginbutton_div">
           <Link className="LoginButton" to={`/login`}>
             Login
           </Link>
-        </div>
+        </div> */}
+
         <div className="loginbutton_div">
           <h6> Usuario: {userName || "Cargando nombre..."}</h6>
           <h6>id : {id || "Cargando id..."}</h6>
@@ -78,9 +79,9 @@ function Home() {
         <Casos />
       </div>
 
-      <div>
+      {/* <div>
         <CreateTable />
-      </div>
+      </div> */}
       <Modal />
       <div>
         <Link to="/crear_caso">

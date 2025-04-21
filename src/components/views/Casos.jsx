@@ -6,13 +6,14 @@ import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 import "./casos.css";
 
 function Casos() {
-  // Obtener ID del usuario desde Redux
+  // Obtener ID del usuario y token desde Redux
   const userId = useSelector((state) => state.user.identification);
-  
+  const token = useSelector((state) => state.user.token);
+
   // Estados
   const [loading, setLoading] = useState(true);
   const [editingCropId, setEditingCropId] = useState(null);
-  
+
   // Configuración de drag and drop
   const [parentRef, crops, setCrops] = useDragAndDrop([], {
     sortable: true,
@@ -27,13 +28,25 @@ function Casos() {
   // Obtener cultivos del agricultor al cargar el componente
   useEffect(() => {
     const fetchFarmersCrops = async () => {
-      if (!userId) return;
-      
+      if (!userId || !token) return;
+
       try {
         setLoading(true);
+
+        // Configurar los encabezados de la solicitud
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/farmers_crops/mis_cultivos/${userId}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/farmers_crops/mis_cultivos/${userId}`,
+          config
         );
+        console.log("Datos de cultivos:", response.data);
         setCrops(response.data);
       } catch (error) {
         console.error("Error al obtener datos de cultivos:", error);
@@ -43,7 +56,7 @@ function Casos() {
     };
 
     fetchFarmersCrops();
-  }, [userId, setCrops]);
+  }, [userId, token, setCrops]);
 
   // Guardar orden después de drag and drop
   useEffect(() => {
@@ -56,7 +69,7 @@ function Casos() {
         console.log("Nuevo orden de cultivos:", crops);
       }
     };
-    
+
     // Descomenta esta línea cuando implementes la función de guardar
     // saveNewOrder();
   }, [crops, loading]);
@@ -72,31 +85,40 @@ function Casos() {
   if (loading) {
     return <div className="loading-container">Cargando cultivos...</div>;
   }
+  // Añadir esta función dentro del componente Casos
+  const handleDeleteCrop = (cropId) => {
+    // Actualizar el estado eliminando el cultivo con el ID proporcionado
+    setCrops(crops.filter((crop) => crop.id !== cropId));
+    console.log("Cultivo eliminado del estado:", cropId);
+  };
 
   return (
     <div className="contenedor_casos_padre">
       <div className="casos-header">
         <h4>Lista de cultivos</h4>
       </div>
-      
+
       <div className="contenedor_casos_hijo" ref={parentRef}>
         {crops.length > 0 ? (
           crops.map((crop) => (
             <div key={crop.id} className="caso-container">
-              <Caso casoData={crop} onEdit={handleEditCrop} />
+              <Caso
+                casoData={crop}
+                onEdit={handleEditCrop}
+                onDelete={handleDeleteCrop}
+              />
             </div>
           ))
         ) : (
           <p className="no-crops-message">No hay cultivos disponibles</p>
         )}
       </div>
-      
+
       {/* Aquí iría el modal o formulario de edición que se mostraría cuando editingCropId tiene valor */}
-      {editingCropId && (
+      {editingCropId &&
         // Placeholder para el componente de edición
         // <EditCropModal cropId={editingCropId} onClose={() => setEditingCropId(null)} />
-        null
-      )}
+        null}
     </div>
   );
 }
