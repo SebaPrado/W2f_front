@@ -32,14 +32,20 @@ function Dashboard() {
   useEffect(() => {
     const fetchCropPrices = async () => {
       try {
+        console.log("Iniciando petición de precios");
         setLoading(true);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/crops_prices`
         );
+        console.log("Respuesta recibida:", response.data);
         setCropPrices(response.data);
         setError(null);
       } catch (error) {
         console.error("Error al obtener precios de cultivos:", error);
+        console.log(
+          "URL utilizada:",
+          `${import.meta.env.VITE_API_URL}/crops_prices`
+        );
         setError("Error al cargar los precios de cultivos");
       } finally {
         setLoading(false);
@@ -162,15 +168,25 @@ function Dashboard() {
 
   // Filtrar precios por cultivo
   const getPricesByCrop = (cropId) => {
-    return cropPrices
-      .filter((price) => price.crop_id === cropId)
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Ordenar por fecha, más reciente primero
+    console.log(`Filtrando precios para cultivo ID ${cropId}`);
+    console.log("Total de precios disponibles:", cropPrices.length);
+    const filteredPrices = cropPrices
+      .filter((price) => price.crop_id == cropId)
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    console.log(
+      `Precios encontrados para cultivo ${cropId} (${cropNames[cropId]})`,
+      filteredPrices
+    );
+    return filteredPrices;
   };
 
   // Obtener el último precio de un cultivo
   const getLastPrice = (cropId) => {
     const prices = getPricesByCrop(cropId);
-    return prices.length > 0 ? prices[0].price_uss : "";
+    const lastPrice = prices.length > 0 ? prices[0].price_uss : "";
+    console.log(`Último precio para ${cropNames[cropId]}:`, lastPrice);
+    return lastPrice;
   };
 
   if (loading)
@@ -186,133 +202,137 @@ function Dashboard() {
       </div>
     );
 
-  return (
+  // Antes de renderizar la lista de cultivos
+  console.log("Renderizando dashboard con datos:", {
+    totalPrices: cropPrices.length,
+    crops: Object.keys(cropNames).length,
+  });
 
+  return (
     <div>
       <h2>Precios de Cultivos</h2>
-    <div className="dashboard-container">
+      <div className="dashboard-container">
+        {/* Renderizar una tabla para cada cultivo */}
+        {Object.entries(cropNames).map(([cropId, cropName]) => (
+          <div key={cropId} className="crop-section">
+            <h3>{cropName}</h3>
 
-      {/* Renderizar una tabla para cada cultivo */}
-      {Object.entries(cropNames).map(([cropId, cropName]) => (
-        <div key={cropId} className="crop-section">
-          <h3>{cropName}</h3>
-
-          {/* Formulario para agregar precio del día para este cultivo */}
-          <div className="create-form crop-form">
-            <div className="form-group">
-              <label>Precio de hoy (USD):</label>
-              <input
-                type="number"
-                step="0.01"
-                name="price_uss"
-                value={
-                  formData.crop_id === parseInt(cropId)
-                    ? formData.price_uss
-                    : getLastPrice(parseInt(cropId))
-                }
-                onChange={(e) => handleInputChange(e, parseInt(cropId))}
-                className="price-input"
-              />
+            {/* Formulario para agregar precio del día para este cultivo */}
+            <div className="create-form crop-form">
+              <div className="form-group">
+                <label>Precio de hoy (USD):</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  name="price_uss"
+                  value={
+                    formData.crop_id === parseInt(cropId)
+                      ? formData.price_uss
+                      : getLastPrice(parseInt(cropId))
+                  }
+                  onChange={(e) => handleInputChange(e, parseInt(cropId))}
+                  className="price-input"
+                />
+              </div>
+              <div className="form-group date-display">
+                <label>Fecha: {new Date().toLocaleDateString("es-ES")}</label>
+              </div>
+              <button
+                className="save-button"
+                onClick={() => handleCreate(parseInt(cropId))}
+              >
+                Guardar Precio
+              </button>
             </div>
-            <div className="form-group date-display">
-              <label>Fecha: {new Date().toLocaleDateString("es-ES")}</label>
-            </div>
-            <button
-              className="save-button"
-              onClick={() => handleCreate(parseInt(cropId))}
-            >
-              Guardar Precio
-            </button>
-          </div>
 
-          {/* Tabla de precios para este cultivo */}
-          <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Precio (USD)</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getPricesByCrop(parseInt(cropId)).map((price) => (
-                  <tr key={price.id}>
-                    <td>
-                      {editMode.active && editMode.id === price.id ? (
-                        <input
-                          type="date"
-                          name="created_at"
-                          value={formData.created_at}
-                          onChange={handleInputChange}
-                          className="edit-input"
-                        />
-                      ) : (
-                        formatDate(price.created_at)
-                      )}
-                    </td>
-                    <td>
-                      {editMode.active && editMode.id === price.id ? (
-                        <input
-                          type="number"
-                          step="0.01"
-                          name="price_uss"
-                          value={formData.price_uss}
-                          onChange={handleInputChange}
-                          className="edit-input"
-                        />
-                      ) : (
-                        `$${price.price_uss}`
-                      )}
-                    </td>
-                    <td>
-                      {editMode.active && editMode.id === price.id ? (
-                        <div className="button-group">
-                          <button
-                            className="save-button"
-                            onClick={() => handleSave(price.id)}
-                          >
-                            Guardar
-                          </button>
-                          <button
-                            className="cancel-button"
-                            onClick={handleCancel}
-                          >
-                            Cancelar
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="button-group">
-                          <button
-                            className="edit-button"
-                            onClick={() => handleEdit(price)}
-                          >
-                            Editar
-                          </button>
-                          <button
-                            className="cancel-button"
-                            onClick={() => handleDelete(price.id)}
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                {getPricesByCrop(parseInt(cropId)).length === 0 && (
+            {/* Tabla de precios para este cultivo */}
+            <div className="table-responsive">
+              <table className="table table-striped table-hover">
+                <thead>
                   <tr>
-                    <td colSpan="3" className="text-center">
-                      No hay precios registrados para este cultivo
-                    </td>
+                    <th>Fecha</th>
+                    <th>Precio (USD)</th>
+                    <th>Acciones</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {getPricesByCrop(parseInt(cropId)).map((price) => (
+                    <tr key={price.id}>
+                      <td>
+                        {editMode.active && editMode.id === price.id ? (
+                          <input
+                            type="date"
+                            name="created_at"
+                            value={formData.created_at}
+                            onChange={handleInputChange}
+                            className="edit-input"
+                          />
+                        ) : (
+                          formatDate(price.created_at)
+                        )}
+                      </td>
+                      <td>
+                        {editMode.active && editMode.id === price.id ? (
+                          <input
+                            type="number"
+                            step="0.01"
+                            name="price_uss"
+                            value={formData.price_uss}
+                            onChange={handleInputChange}
+                            className="edit-input"
+                          />
+                        ) : (
+                          `$${price.price_uss}`
+                        )}
+                      </td>
+                      <td>
+                        {editMode.active && editMode.id === price.id ? (
+                          <div className="button-group">
+                            <button
+                              className="save-button"
+                              onClick={() => handleSave(price.id)}
+                            >
+                              Guardar
+                            </button>
+                            <button
+                              className="cancel-button"
+                              onClick={handleCancel}
+                            >
+                              Cancelar
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="button-group">
+                            <button
+                              className="edit-button"
+                              onClick={() => handleEdit(price)}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="cancel-button"
+                              onClick={() => handleDelete(price.id)}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  {getPricesByCrop(parseInt(cropId)).length === 0 && (
+                    <tr>
+                      <td colSpan="3" className="text-center">
+                        No hay precios registrados para este cultivo
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
     </div>
   );
 }
