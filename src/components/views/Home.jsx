@@ -64,6 +64,7 @@ function Home() {
           <button className="crear_caso">Crear caso</button>
         </Link>
       </div>
+      
     </div>
   );
 }

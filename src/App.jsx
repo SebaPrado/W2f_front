@@ -10,6 +10,7 @@ import Dashboard from "./components/views/Dashboard";
 import Caso from "./components/views/Caso";
 import CasoEdit from "./components/views/CasoEdit";
 import CrearCaso from "./components/views/CrearCaso";
+import Api_granos from "./components/views/Api_granos";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "crear_caso",
         element: <CrearCaso />,
+      },
+      {
+        path: "api_granos",
+        element: <Api_granos />,
       },
     ],
   },
