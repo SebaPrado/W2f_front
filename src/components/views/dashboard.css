@@ -1,7 +1,9 @@
 .dashboard-container {
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 90vw;
+  margin: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
   /* background-color: royalblue; */
 }
 
@@ -13,7 +15,7 @@
   color: #333;
 }
 
-.dashboard-container h3 {
+/* .dashboard-container h3 {
   text-align: center;
   margin-bottom: 30px;
   color: #368d04b6;
@@ -24,9 +26,9 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;
-}
+} */
 
-.crop_card {
+/* .crop_card {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 4px 2px 4px 4px rgba(1, 80, 1, 0.459);
@@ -43,23 +45,24 @@
 .crop_card p {
   margin: 0 0 15px 0;
   color: #666;
-}
+} */
 
-.edit-form {
+/* .edit-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
+} */
 
-.form-group {
+/* .form-group {
   display: flex;
   flex-direction: column;
   gap: 5px;
-}
+} */
 
 .form-group label {
   color: #2c3e50;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-weight: 200;
 }
 
 .form-group input {
@@ -67,6 +70,8 @@
   border-radius: 4px;
   border: 1px solid #ddd;
   background-color: white;
+  font-weight: 200;
+
 }
 
 .button-group {
@@ -83,7 +88,9 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-weight: 200;
+
 }
 
 .cancel-button {
@@ -114,6 +121,8 @@
   font-weight: bold;
   /* width: 80%; */
   box-sizing: border-box;
+  font-weight: 200;
+
 }
 
 .edit-button:hover {
@@ -131,8 +140,79 @@
   flex: 1;
 }
 
-.button-container {
-  /* margin-top: 15px; */
+/* .button-container {
   display: flex;
   justify-content: center !important;
+} */
+
+/* Estilo para el contenedor flex de los cultivos */
+/* .crops-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+} */
+
+.crop-section {
+  flex: 0 0 calc(20% - 20px); 
+  max-width: 230px;
+  margin-bottom: 30px;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 1px 3px 12px rgba(1, 16, 99, 0.918);
+  background-color: rgba(132, 199, 9, 0.445);
+ 
+}
+.crop-section h3,p,label {
+    font-weight: 200;
+    color: #000000;
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 1400px) {
+  .crop-section {
+    flex: 0 0 calc(25% - 20px); /* 4 cultivos por fila */
+  }
+}
+
+@media (max-width: 1200px) {
+  .crop-section {
+    flex: 0 0 calc(33.333% - 20px); /* 3 cultivos por fila */
+  }
+}
+
+@media (max-width: 992px) {
+  .crop-section {
+    flex: 0 0 calc(50% - 20px); /* 2 cultivos por fila */
+  }
+}
+
+@media (max-width: 576px) {
+  .crop-section {
+    flex: 0 0 100%; /* 1 cultivo por fila */
+  }
+}
+
+/* Estilos para los formularios de cada cultivo */
+.crop-form {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+/* Hacer las tablas más compactas */
+/* .crop-section .table th,
+.crop-section .table td {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+} */
+
+.crop-section h3 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
 }
