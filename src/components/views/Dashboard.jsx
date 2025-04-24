@@ -278,7 +278,7 @@ function Dashboard() {
   if (loading)
     return (
       <div className="dashboard-container">
-        <h3>Cargando precios de cultivos...</h3>
+        <h3>Cargando precios de los cultivos...</h3>
       </div>
     );
   if (error)
