@@ -298,7 +298,7 @@ function Dashboard() {
           className="bulk-edit-btn"
           onClick={() => setShowBulkModal(true)}
         >
-          Editar Todos los Precios
+          Editar Todos los Precios 
         </button>
         <div className="prices-table">
           {/* Cabeceras */}
@@ -427,7 +427,7 @@ function Dashboard() {
       {/* -------------------------             To do List            -------------------------------- */}
 
       <div className="dashboard-section">
-        <h2>Gestión de Tareas</h2>
+        <h2>Listado de Tareas</h2>
         <Todo />
       </div>
 
