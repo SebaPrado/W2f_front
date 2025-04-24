@@ -1,218 +1,407 @@
+/* Dashboard Grid Minimalista */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 300 !important;
+}
+
 .dashboard-container {
   padding: 20px;
-  max-width: 90vw;
-  margin: 0 !important;
-  display: flex;
-  flex-wrap: wrap;
-  /* background-color: royalblue; */
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.dashboard-container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  margin-top: 30px;
-
-  color: #333;
-}
-
-/* .dashboard-container h3 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #368d04b6;
-}
-
-.crops-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-} */
-
-/* .crop_card {
+.dashboard-section {
+  background: white;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 4px 2px 4px 4px rgba(1, 80, 1, 0.459);
-  position: relative;
-  min-height: 170px;
+  padding: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.crop_card h3 {
-  margin: 0 0 10px 0;
-  color: #04680d;
-  font-weight: 300;
+.dashboard-section h2 {
+  color: #2196f3;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
 }
 
-.crop_card p {
-  margin: 0 0 15px 0;
-  color: #666;
-} */
-
-/* .edit-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-} */
-
-/* .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-} */
-
-.form-group label {
-  color: #2c3e50;
-  /* font-weight: bold; */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
   font-weight: 200;
 }
 
-.form-group input {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+/* Grid principal */
+.prices-table {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
   background-color: white;
+  border: 1px solid #eaeaea;
+  margin: 0 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 12px !important;
+  line-height: 1.2;
+}
+
+/* Cabeceras - primera fila */
+.header-cell {
+  background-color: #237c23;
+  color: white;
+  padding: 6px 4px;
+  text-align: center;
   font-weight: 200;
-
+  border-bottom: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  font-size: 12px !important;
 }
 
-.button-group {
+/* Primera columna - cultivos */
+.crop-name {
+  background-color: #237c23;
+  color: white;
+  padding: 6px 4px;
+  text-align: left;
+  font-weight: 200;
   display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  font-size: 12px !important;
 }
 
-.save-button {
+.add-crop-btn {
+  background-color: #2ce632;
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 11px !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  padding-bottom: 2px;
+}
+
+.add-crop-btn:hover {
+  background-color: #45a049;
+}
+
+/* Celdas de precios */
+.price-cell {
+  background-color: white;
+  padding: 6px 4px;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+}
+
+/* Resaltar celda del día actual */
+.today {
+  background-color: #f0f7f0;
+}
+
+/* Para filas alternadas */
+.row-odd .price-cell {
+  background-color: white;
+}
+
+.row-even .price-cell {
+  background-color: #f5f5f5;
+}
+
+.row-even .today {
+  background-color: #e8f5e9;
+}
+
+/* Para precios no disponibles */
+.no-data {
+  color: #bbbbbb;
+  font-style: italic;
+}
+
+/* Botón editar - visible solo al hacer hover */
+.edit-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.price-cell:hover .edit-btn {
+  opacity: 1;
+}
+
+/* Modo edición */
+.edit-mode {
+  padding: 5px;
+}
+
+.edit-input {
+  width: 80%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  text-align: center;
+  font-weight: 200;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.save-btn {
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 3px;
+  padding: 3px 8px;
   cursor: pointer;
-  /* font-weight: bold; */
+  font-size: 12px;
   font-weight: 200;
-
 }
 
-.cancel-button {
+.cancel-btn {
   background-color: #f44336;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 3px;
+  padding: 3px 8px;
   cursor: pointer;
-  font-weight: bold;
-}
-
-.save-button:hover {
-  background-color: #45a049;
-}
-
-.cancel-button:hover {
-  background-color: #d32f2f;
-}
-
-.edit-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  /* width: 80%; */
-  box-sizing: border-box;
+  font-size: 12px;
   font-weight: 200;
-
 }
 
-.edit-button:hover {
-  background-color: #45a049;
-}
-
-.crop_div_closed {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
-.crop-info {
-  flex: 1;
-}
-
-/* .button-container {
-  display: flex;
-  justify-content: center !important;
-} */
-
-/* Estilo para el contenedor flex de los cultivos */
-/* .crops-flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-} */
-
-.crop-section {
-  flex: 0 0 calc(20% - 20px); 
-  max-width: 230px;
-  margin-bottom: 30px;
-  margin: 10px;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 1px 3px 12px rgba(1, 16, 99, 0.918);
-  background-color: rgba(132, 199, 9, 0.445);
- 
-}
-.crop-section h3,p,label {
-    font-weight: 200;
-    color: #000000;
-}
-
-
-/* Estilos responsivos */
-@media (max-width: 1400px) {
-  .crop-section {
-    flex: 0 0 calc(25% - 20px); /* 4 cultivos por fila */
-  }
-}
-
-@media (max-width: 1200px) {
-  .crop-section {
-    flex: 0 0 calc(33.333% - 20px); /* 3 cultivos por fila */
-  }
-}
-
+/* Responsive */
 @media (max-width: 992px) {
-  .crop-section {
-    flex: 0 0 calc(50% - 20px); /* 2 cultivos por fila */
+  .prices-table {
+    grid-template-columns: 130px repeat(4, 1fr);
+  }
+
+  .prices-table > *:nth-child(9n + 6),
+  .prices-table > *:nth-child(9n + 7),
+  .prices-table > *:nth-child(9n + 8),
+  .prices-table > *:nth-child(9n + 9) {
+    display: none;
   }
 }
 
 @media (max-width: 576px) {
-  .crop-section {
-    flex: 0 0 100%; /* 1 cultivo por fila */
+  .prices-table {
+    grid-template-columns: 100px repeat(2, 1fr);
+  }
+
+  .prices-table > *:nth-child(9n + 4),
+  .prices-table > *:nth-child(9n + 5),
+  .prices-table > *:nth-child(9n + 6),
+  .prices-table > *:nth-child(9n + 7),
+  .prices-table > *:nth-child(9n + 8),
+  .prices-table > *:nth-child(9n + 9) {
+    display: none;
   }
 }
 
-/* Estilos para los formularios de cada cultivo */
-.crop-form {
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
+/* Estilos para el modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-/* Hacer las tablas más compactas */
-/* .crop-section .table th,
-.crop-section .table td {
-  padding: 0.5rem;
-  font-size: 0.9rem;
-} */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-.crop-section h3 {
-  color: #2c3e50;
-  text-align: center;
+.modal-content h3 {
+  margin: 0 0 20px 0;
+  color: #2e5e2e;
+  font-weight: 400;
+}
+
+.form-group {
   margin-bottom: 15px;
-  font-size: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 400;
+}
+
+.crop-name-label {
+  font-size: 12px;
+  color: #2e5e2e;
+  font-weight: 500;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #2e5e2e;
+  box-shadow: 0 0 0 2px rgba(46, 94, 46, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-actions .save-btn,
+.modal-actions .cancel-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* Botón de edición en masa */
+.bulk-edit-btn {
+  background-color: #237c23;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.bulk-edit-btn:hover {
+  background-color: #1b5e1b;
+}
+
+/* Estilos para el modal de edición en masa */
+.bulk-modal {
+  width: 1350px;
+  max-width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.bulk-modal h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.bulk-prices-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.bulk-price-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bulk-price-item label {
+  font-size: 12px;
+  color: #2e5e2e;
+  font-weight: 400;
+}
+
+.bulk-price-item input {
+  font-size: 13px;
+  padding: 4px 6px;
+  height: 28px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.modal-input {
+  height: 28px;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.modal-actions {
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.modal-actions button {
+  padding: 4px 12px;
+  font-size: 13px;
+}
+
+/* Responsive para el grid de precios */
+@media (max-width: 992px) {
+  .bulk-prices-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .bulk-prices-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .bulk-prices-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .bulk-modal {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .bulk-price-item input {
+    height: 32px;
+  }
 }

@@ -35,6 +35,7 @@ const Home0 = () => {
             <p className="mb-5">
               Datos en tiempo real para decisiones agrícolas
             </p>
+            
           </div>
         </section>
         <div className="btn_gr_father">

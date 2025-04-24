@@ -1,15 +1,42 @@
 // src/components/Caso.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./caso.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Caso({ casoData, onEdit, onDelete }) {
+function Caso({ casoData, onDelete }) {
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [costItems, setCostItems] = useState([]);
+  const [totalProductionCosts, setTotalProductionCosts] = useState(0);
+
+  useEffect(() => {
+    const fetchCostItems = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/costs_items/farmer-crop/${
+            casoData.id
+          }`
+        );
+        setCostItems(response.data);
+        // Calcular el total de los costos de producción
+        const total = response.data.reduce(
+          (sum, item) => sum + item.price_per_unit * item.units,
+          0
+        );
+        setTotalProductionCosts(total);
+      } catch (error) {
+        console.error("Error al obtener los costos:", error);
+      }
+    };
+
+    fetchCostItems();
+  }, [casoData.id]);
 
   const handleEdit = () => {
-    navigate(`/caso/${casoData.id}/edit`);
+    navigate(`/caso/${casoData.id}/edit`, {
+      state: { casoData },
+    });
   };
 
   const handleDelete = async () => {
@@ -41,10 +68,10 @@ function Caso({ casoData, onEdit, onDelete }) {
     <div className="crop-card">
       <h3 className="crop-title"> Cultivo: {casoData.crop_name}</h3>
       <div className="crop-data">
-        {/* <div className="crop-row">
+        <div className="crop-row">
           <span className="crop-label">ID</span>
           <span className="crop-value">{casoData.id}</span>
-        </div> */}
+        </div>
         {/* <div className="crop-row">
           <span className="crop-label">user_id</span>
           <span className="crop-value">{casoData.user_id}</span>
@@ -69,14 +96,21 @@ function Caso({ casoData, onEdit, onDelete }) {
           <span className="crop-label">Valor arrendamiento</span>
           <span className="crop-value">{casoData.lease_cost_usd}</span>
         </div>
-        {/* <div className="crop-row">
-          <span className="crop-label">lease_cost_kg</span>
-          <span className="crop-value">{casoData.lease_cost_kg}</span>
-        </div> */}
         <div className="crop-row">
           <span className="crop-label">Costos Insumos</span>
-          <span className="crop-value">{casoData.production_costs}</span>
+          <span className="crop-value">{totalProductionCosts.toFixed(2)}</span>
         </div>
+        {isExpanded && costItems.length > 0 && (
+          <div className="cost-items-detail">
+            <h4>Detalle de Costos:</h4>
+            {costItems.map((item, index) => (
+              <div key={index} className="cost-item-row">
+                <span>{item.name}</span>
+                <span>${(item.price_per_unit * item.units).toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="crop-row">
           <span className="crop-label">Comercializacion</span>
           <span className="crop-value">{casoData.commercialization}</span>

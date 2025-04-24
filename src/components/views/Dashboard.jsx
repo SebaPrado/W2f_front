@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./dashboard.css";
+import Todo from "./Todo";
+import { tasks as initialTasks } from "../../data/tasks";
 
 function Dashboard() {
   const [cropPrices, setCropPrices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editMode, setEditMode] = useState({ id: null, active: false });
-  const [formData, setFormData] = useState({
-    crop_id: "",
+  const [showModal, setShowModal] = useState(false);
+  const [showBulkModal, setShowBulkModal] = useState(false);
+  const [selectedCrop, setSelectedCrop] = useState(null);
+  const [localTasks, setLocalTasks] = useState(initialTasks);
+  const [newPrice, setNewPrice] = useState({
     price_uss: "",
     created_at: new Date().toISOString().split("T")[0],
   });
+  const [bulkPrices, setBulkPrices] = useState({});
 
   // Mapeo de IDs a nombres de cultivos
   const cropNames = {
@@ -55,24 +61,35 @@ function Dashboard() {
     fetchCropPrices();
   }, []);
 
+  // Inicializar bulkPrices con todos los cultivos
+  useEffect(() => {
+    const initialBulkPrices = {};
+    Object.keys(cropNames).forEach((cropId) => {
+      // Asignar valores predeterminados según el cultivo
+      if (cropId === "2" || cropId === "3") {
+        // Maíz y Sorgo
+        initialBulkPrices[cropId] = "200";
+      } else if (cropId === "6" || cropId === "7") {
+        // Canola y Girasol
+        initialBulkPrices[cropId] = "530";
+      } else {
+        initialBulkPrices[cropId] = "300";
+      }
+    });
+    setBulkPrices(initialBulkPrices);
+  }, []);
+
+  const [bulkDate, setBulkDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
   // Manejar cambios en el formulario
-  const handleInputChange = (e, cropId = null) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (cropId) {
-      // Si estamos manejando un formulario específico de cultivo
-      setFormData({
-        ...formData,
-        [name]: value,
-        crop_id: cropId,
-        created_at: new Date().toISOString().split("T")[0],
-      });
-    } else {
-      // Para el formulario general
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   // Activar modo de edición para un precio
@@ -132,15 +149,16 @@ function Dashboard() {
   };
 
   // Crear un nuevo precio
-  const handleCreate = async (cropId = null) => {
+  const handleCreate = async (cropId, date) => {
     try {
-      const dataToSend = cropId
-        ? {
-            crop_id: cropId,
-            price_uss: formData.price_uss,
-            created_at: formData.created_at,
-          }
-        : formData;
+      console.log("Creando precio para fecha:", date);
+      const dataToSend = {
+        crop_id: cropId,
+        price_uss: formData.price_uss,
+        created_at: date,
+      };
+
+      console.log("Datos a enviar:", dataToSend);
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/crops_prices`,
@@ -148,45 +166,113 @@ function Dashboard() {
       );
       setCropPrices([...cropPrices, response.data]);
 
-      // Solo resetear el precio, mantener la fecha actual
+      // Resetear el precio
       setFormData({
         ...formData,
         price_uss: "",
-        crop_id: cropId || "",
       });
+
+      // Salir del modo edición si estábamos creando un precio nuevo
+      setEditMode({ id: null, active: false });
     } catch (error) {
       console.error("Error al crear precio:", error);
       setError("Error al crear el nuevo precio");
     }
   };
 
-  // Formatear fecha
+  // Formatear fecha para mostrar
   const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
+    const options = { day: "numeric", month: "numeric" };
     return new Date(dateString).toLocaleDateString("es-ES", options);
   };
 
-  // Filtrar precios por cultivo
-  const getPricesByCrop = (cropId) => {
-    console.log(`Filtrando precios para cultivo ID ${cropId}`);
-    console.log("Total de precios disponibles:", cropPrices.length);
-    const filteredPrices = cropPrices
-      .filter((price) => price.crop_id == cropId)
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-    console.log(
-      `Precios encontrados para cultivo ${cropId} (${cropNames[cropId]})`,
-      filteredPrices
-    );
-    return filteredPrices;
+  // Obtener los últimos 8 días (incluyendo hoy)
+  const getLastDays = () => {
+    const days = [];
+    for (let i = 0; i < 8; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      days.push({
+        date: date.toISOString().split("T")[0],
+        label: i === 0 ? "Hoy" : i === 1 ? "Ayer" : formatDate(date),
+      });
+    }
+    return days;
   };
 
-  // Obtener el último precio de un cultivo
-  const getLastPrice = (cropId) => {
-    const prices = getPricesByCrop(cropId);
-    const lastPrice = prices.length > 0 ? prices[0].price_uss : "";
-    console.log(`Último precio para ${cropNames[cropId]}:`, lastPrice);
-    return lastPrice;
+  // Obtener el precio para un cultivo en una fecha específica
+  const getPriceForCropAndDate = (cropId, date) => {
+    const price = cropPrices.find(
+      (p) => p.crop_id == cropId && p.created_at.split("T")[0] === date
+    );
+    return price || null;
+  };
+
+  // Función para manejar el envío del nuevo precio
+  const handleSubmitNewPrice = async () => {
+    try {
+      console.log("Datos del formulario antes de enviar:", {
+        crop_id: selectedCrop,
+        price_uss: newPrice.price_uss,
+        created_at: newPrice.created_at,
+      });
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/crops_prices`,
+        {
+          crop_id: selectedCrop,
+          price_uss: newPrice.price_uss,
+          created_at: newPrice.created_at,
+        }
+      );
+
+      console.log("Respuesta del servidor:", response.data);
+      setCropPrices([...cropPrices, response.data]);
+      setShowModal(false);
+      // Resetear el formulario
+      setNewPrice({
+        price_uss: "",
+        created_at: new Date().toISOString().split("T")[0],
+      });
+      setSelectedCrop(null);
+    } catch (error) {
+      console.error("Error completo al crear precio:", error.response || error);
+      setError("Error al crear el nuevo precio");
+    }
+  };
+
+  // Función para manejar el envío de precios en masa
+  const handleSubmitBulkPrices = async () => {
+    try {
+      const promises = Object.entries(bulkPrices)
+        .filter(([_, price]) => price !== "") // Solo enviar los precios que no estén vacíos
+        .map(([cropId, price]) => {
+          return axios.post(`${import.meta.env.VITE_API_URL}/crops_prices`, {
+            crop_id: cropId,
+            price_uss: price,
+            created_at: bulkDate,
+          });
+        });
+
+      await Promise.all(promises);
+
+      // Actualizar la lista de precios
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/crops_prices`
+      );
+      setCropPrices(response.data);
+      setShowBulkModal(false);
+
+      // Resetear el formulario
+      const resetBulkPrices = {};
+      Object.keys(cropNames).forEach((cropId) => {
+        resetBulkPrices[cropId] = "";
+      });
+      setBulkPrices(resetBulkPrices);
+    } catch (error) {
+      console.error("Error al crear precios en masa:", error);
+      setError("Error al crear los nuevos precios");
+    }
   };
 
   if (loading)
@@ -202,137 +288,255 @@ function Dashboard() {
       </div>
     );
 
-  // Antes de renderizar la lista de cultivos
-  console.log("Renderizando dashboard con datos:", {
-    totalPrices: cropPrices.length,
-    crops: Object.keys(cropNames).length,
-  });
+  const lastDays = getLastDays();
 
   return (
-    <div>
-      <h2>Precios de Cultivos</h2>
-      <div className="dashboard-container">
-        {/* Renderizar una tabla para cada cultivo */}
-        {Object.entries(cropNames).map(([cropId, cropName]) => (
-          <div key={cropId} className="crop-section">
-            <h3>{cropName}</h3>
+    <div className="dashboard-container">
+      <div className="dashboard-section">
+        <h2>Precios de Cultivos</h2>
+        <button
+          className="bulk-edit-btn"
+          onClick={() => setShowBulkModal(true)}
+        >
+          Editar Todos los Precios
+        </button>
+        <div className="prices-table">
+          {/* Cabeceras */}
+          <div className="header-cell">Cultivo</div>
+          {lastDays.map((day, index) => (
+            <div key={`header-${index}`} className="header-cell">
+              {day.label}
+            </div>
+          ))}
 
-            {/* Formulario para agregar precio del día para este cultivo */}
-            <div className="create-form crop-form">
-              <div className="form-group">
-                <label>Precio de hoy (USD):</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  name="price_uss"
-                  value={
-                    formData.crop_id === parseInt(cropId)
-                      ? formData.price_uss
-                      : getLastPrice(parseInt(cropId))
-                  }
-                  onChange={(e) => handleInputChange(e, parseInt(cropId))}
-                  className="price-input"
-                />
+          {/* Filas de cultivos */}
+          {Object.entries(cropNames).map(([cropId, cropName], rowIndex) => (
+            <React.Fragment key={`crop-${cropId}`}>
+              {/* Nombre del cultivo */}
+              <div className="crop-name">
+                {cropName}
+                <button
+                  className="add-crop-btn"
+                  onClick={() => {
+                    setSelectedCrop(cropId);
+                    setShowModal(true);
+                  }}
+                  title="Agregar precio"
+                >
+                  +
+                </button>
               </div>
-              <div className="form-group date-display">
-                <label>Fecha: {new Date().toLocaleDateString("es-ES")}</label>
-              </div>
+              {/* <div> hola</div> */}
+
+              {/* Celdas de precios para cada día */}
+              {lastDays.map((day, colIndex) => {
+                const price = getPriceForCropAndDate(cropId, day.date);
+                const isEditing =
+                  editMode.active && price && editMode.id === price.id;
+
+                return (
+                  <div
+                    key={`price-${cropId}-${day.date}`}
+                    className={`price-cell ${colIndex === 0 ? "today" : ""} ${
+                      rowIndex % 2 === 1 ? "row-even" : "row-odd"
+                    }`}
+                  >
+                    {isEditing ? (
+                      <div className="edit-mode">
+                        <input
+                          type="number"
+                          step="0.01"
+                          name="price_uss"
+                          value={formData.price_uss}
+                          onChange={handleInputChange}
+                          className="edit-input"
+                        />
+                        <div className="edit-actions">
+                          <button
+                            className="save-btn"
+                            onClick={() => handleSave(price.id)}
+                          >
+                            Guardar
+                          </button>
+                          <button className="cancel-btn" onClick={handleCancel}>
+                            Cancelar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        {price ? (
+                          <>
+                            ${price.price_uss}
+                            <button
+                              className="edit-btn"
+                              onClick={() => handleEdit(price)}
+                              title="Editar"
+                            >
+                              ✎
+                            </button>
+                          </>
+                        ) : (
+                          <div className="no-data">-</div>
+                        )}
+
+                        {/* Modo de edición para nuevo precio */}
+                        {editMode.active &&
+                          editMode.id === `new-${cropId}-${day.date}` && (
+                            <div className="edit-mode">
+                              <input
+                                type="number"
+                                step="0.01"
+                                name="price_uss"
+                                value={formData.price_uss}
+                                onChange={handleInputChange}
+                                className="edit-input"
+                              />
+                              <div className="edit-actions">
+                                <button
+                                  className="save-btn"
+                                  onClick={() => {
+                                    console.log(
+                                      "Guardando con fecha:",
+                                      day.date
+                                    );
+                                    handleCreate(cropId, day.date);
+                                  }}
+                                >
+                                  Guardar
+                                </button>
+                                <button
+                                  className="cancel-btn"
+                                  onClick={handleCancel}
+                                >
+                                  Cancelar
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* -------------------------             To do List            -------------------------------- */}
+
+      <div className="dashboard-section">
+        <h2>Gestión de Tareas</h2>
+        <Todo />
+      </div>
+
+      {/* -------------------------            show modal            -------------------------------- */}
+
+      {/* Modal para edición en masa */}
+      {showBulkModal && (
+        <div className="modal-overlay">
+          <div className="modal-content bulk-modal">
+            <h3>Editar Precios de Todos los Cultivos</h3>
+            <div className="form-group">
+              <label>Fecha:</label>
+              <input
+                type="date"
+                value={bulkDate}
+                onChange={(e) => setBulkDate(e.target.value)}
+                className="modal-input"
+              />
+            </div>
+            <div className="bulk-prices-grid">
+              {Object.entries(cropNames).map(([cropId, cropName]) => (
+                <div key={cropId} className="bulk-price-item">
+                  <label>{cropName}:</label>
+                  <input
+                    type="number"
+                    step="5"
+                    value={bulkPrices[cropId]}
+                    onChange={(e) =>
+                      setBulkPrices({
+                        ...bulkPrices,
+                        [cropId]: e.target.value,
+                      })
+                    }
+                    className="modal-input"
+                    placeholder={`Precio para ${cropName}`}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="modal-actions">
+              <button className="save-btn" onClick={handleSubmitBulkPrices}>
+                Guardar Todos
+              </button>
               <button
-                className="save-button"
-                onClick={() => handleCreate(parseInt(cropId))}
+                className="cancel-btn"
+                onClick={() => {
+                  setShowBulkModal(false);
+                  // Resetear los valores
+                  const resetBulkPrices = {};
+                  Object.keys(cropNames).forEach((cropId) => {
+                    resetBulkPrices[cropId] = "";
+                  });
+                  setBulkPrices(resetBulkPrices);
+                }}
               >
-                Guardar Precio
+                Cancelar
               </button>
             </div>
+          </div>
+        </div>
+      )}
 
-            {/* Tabla de precios para este cultivo */}
-            <div className="table-responsive">
-              <table className="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>Precio (USD)</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getPricesByCrop(parseInt(cropId)).map((price) => (
-                    <tr key={price.id}>
-                      <td>
-                        {editMode.active && editMode.id === price.id ? (
-                          <input
-                            type="date"
-                            name="created_at"
-                            value={formData.created_at}
-                            onChange={handleInputChange}
-                            className="edit-input"
-                          />
-                        ) : (
-                          formatDate(price.created_at)
-                        )}
-                      </td>
-                      <td>
-                        {editMode.active && editMode.id === price.id ? (
-                          <input
-                            type="number"
-                            step="0.01"
-                            name="price_uss"
-                            value={formData.price_uss}
-                            onChange={handleInputChange}
-                            className="edit-input"
-                          />
-                        ) : (
-                          `$${price.price_uss}`
-                        )}
-                      </td>
-                      <td>
-                        {editMode.active && editMode.id === price.id ? (
-                          <div className="button-group">
-                            <button
-                              className="save-button"
-                              onClick={() => handleSave(price.id)}
-                            >
-                              Guardar
-                            </button>
-                            <button
-                              className="cancel-button"
-                              onClick={handleCancel}
-                            >
-                              Cancelar
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="button-group">
-                            <button
-                              className="edit-button"
-                              onClick={() => handleEdit(price)}
-                            >
-                              Editar
-                            </button>
-                            <button
-                              className="cancel-button"
-                              onClick={() => handleDelete(price.id)}
-                            >
-                              Eliminar
-                            </button>
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                  {getPricesByCrop(parseInt(cropId)).length === 0 && (
-                    <tr>
-                      <td colSpan="3" className="text-center">
-                        No hay precios registrados para este cultivo
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+      {/* Modal para agregar nuevo precio */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Agregar nuevo precio</h3>
+            <div className="form-group">
+              <label>Cultivo:</label>
+              <span className="crop-name-label">{cropNames[selectedCrop]}</span>
+            </div>
+            <div className="form-group">
+              <label>Fecha:</label>
+              <input
+                type="date"
+                value={newPrice.created_at}
+                onChange={(e) => {
+                  console.log("Fecha seleccionada:", e.target.value);
+                  setNewPrice({ ...newPrice, created_at: e.target.value });
+                }}
+                className="modal-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>Precio (US$):</label>
+              <input
+                type="number"
+                step="0.01"
+                value={newPrice.price_uss}
+                onChange={(e) =>
+                  setNewPrice({ ...newPrice, price_uss: e.target.value })
+                }
+                className="modal-input"
+              />
+            </div>
+            <div className="modal-actions">
+              <button className="save-btn" onClick={handleSubmitNewPrice}>
+                Guardar
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
