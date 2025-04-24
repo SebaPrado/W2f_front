@@ -57,32 +57,53 @@ function CrearCaso() {
   const handleCropSelection = async (cropId, cropName) => {
     try {
       setLoading(true);
-      // Now we fetch the specific crop data by ID
-      const response = await axios.get(
+
+      // Obtener los datos básicos del cultivo
+      const cropResponse = await axios.get(
         `${import.meta.env.VITE_API_URL}/crops/${cropId}`
       );
 
-      console.log("Cultivo obtenido:", response.data);
+      // Obtener el precio más reciente del cultivo
+      const priceResponse = await axios.get(
+        `${import.meta.env.VITE_API_URL}/crops_prices/crop/${cropId}`
+      );
 
-      // Set the selected crop and its details
-      if (response.data) {
-        setSelectedCrop(response.data.name);
-        // Verificar si el precio es válido, si no, establecer precio manual por defecto
-        if (!response.data.price || response.data.price <= 0) {
+      console.log("Datos del cultivo:", cropResponse.data);
+      console.log("Historial de precios:", priceResponse.data);
+
+      // Obtener el precio más reciente (el primer elemento ya que están ordenados por DESC)
+      const latestPrice = priceResponse.data[0]?.price_uss;
+
+      if (cropResponse.data) {
+        setSelectedCrop(cropResponse.data.name);
+        // Verificar si hay un precio válido
+        if (!latestPrice || latestPrice <= 0) {
+          console.log("Precio no válido, activando modo manual");
           setIsManualPrice(true);
           setManualPrice("");
+        } else {
+          console.log("Precio válido encontrado:", latestPrice);
+          setIsManualPrice(false);
         }
-        setCropDetails(response.data);
+
+        // Establecer los detalles del cultivo con el precio actualizado
+        setCropDetails({
+          ...cropResponse.data,
+          price: latestPrice,
+        });
 
         // Establecer el rinde predeterminado si existe
-        if (response.data.rinde_promedio) {
-          setRinde(response.data.rinde_promedio.toString());
+        if (cropResponse.data.rinde_promedio) {
+          setRinde(cropResponse.data.rinde_promedio.toString());
         } else {
           setRinde("");
         }
       }
     } catch (error) {
-      console.error("Error al seleccionar cultivo:", error);
+      console.error(
+        "Error detallado al seleccionar cultivo:",
+        error.response || error
+      );
       setIsManualPrice(true); // Si hay error, activar precio manual
     } finally {
       setLoading(false);
@@ -138,13 +159,15 @@ function CrearCaso() {
     return costItems.reduce((total, item) => total + item.total, 0);
   };
 
-  // Calcular ingreso basado en rinde y precio
+  // Calcular ingreso basado en rinde (en kg) y precio
   const calcularIngreso = () => {
     if (!cropDetails || !rinde) return 0;
+    // Convertir kg a toneladas para el cálculo
+    const rindeEnToneladas = parseFloat(rinde) / 1000;
     const precio = isManualPrice
       ? parseFloat(manualPrice)
       : parseFloat(cropDetails.price);
-    return parseFloat(rinde) * precio;
+    return rindeEnToneladas * precio;
   };
 
   // Calcular ingreso neto (ingreso bruto - costos de producción)
@@ -248,20 +271,23 @@ function CrearCaso() {
       {selectedCrop && cropDetails && (
         <div className="cultivo_details_section">
           <h3>Detalles del cultivo: {selectedCrop}</h3>
-          <div className="flex_container">
-            <form onSubmit={handleSubmit} className="cultivo_form">
-              <div className="ingresos_estimados_container">
-                <h4>Ingesos estimados</h4>
+
+          <form onSubmit={handleSubmit} className="cultivo_form">
+            {/* Sección de Ingresos Estimados */}
+            <section className="form_section">
+              <h4 className="section_title">Ingresos estimados</h4>
+
+              <div className="form_row">
                 <div className="form_group">
-                  <label>Rendimiento estimado (tt/ha) :</label>
+                  <label>Rendimiento (kg/ha):</label>
                   <input
                     type="number"
                     className="form_control"
-                    placeholder="Ingrese el rinde"
+                    placeholder="Ingrese el rinde en kg"
                     value={rinde}
                     onChange={handleRindeChange}
                     min="0"
-                    step="0.1"
+                    step="100"
                     required
                   />
                 </div>
@@ -307,7 +333,7 @@ function CrearCaso() {
                     )}
                 </div>
 
-                <div className="form_group">
+                <div className="form_group result">
                   <label>Ingreso estimado:</label>
                   <input
                     type="text"
@@ -317,139 +343,148 @@ function CrearCaso() {
                   />
                 </div>
               </div>
+            </section>
 
-              {/* Sección de Costos de producción */}
-              <div className="production_costs_section">
-                <h3>Costos de producción</h3>
+            {/* Sección de Costos de producción */}
+            <section className="form_section">
+              <h4 className="section_title">Costos de producción</h4>
 
-                <div ref={formContainerRef}>
-                  {/* Botón para mostrar el formulario de nuevo costo */}
-                  {!showCostForm && (
-                    <button
-                      type="button"
-                      className="add_cost_btn"
-                      onClick={() => setShowCostForm(true)}
-                    >
-                      + Nuevo insumo
-                    </button>
-                  )}
+              <div ref={formContainerRef}>
+                {!showCostForm && (
+                  <button
+                    type="button"
+                    className="add_cost_btn"
+                    onClick={() => setShowCostForm(true)}
+                  >
+                    + Nuevo insumo
+                  </button>
+                )}
 
-                  {/* Formulario para agregar nuevo costo */}
-                  {showCostForm && (
-                    <div className="cost_form">
-                      <div className="form_row">
-                        <div className="form_group">
-                          <label>Nombre del insumo:</label>
-                          <input
-                            type="text"
-                            name="name"
-                            className="form_control"
-                            value={newCostItem.name}
-                            onChange={handleCostItemChange}
-                            placeholder="Ej: Fertilizante"
-                            required
-                          />
-                        </div>
-                        <div className="form_group">
-                          <label>Precio por unidad:</label>
-                          <input
-                            type="number"
-                            name="pricePerUnit"
-                            className="form_control"
-                            value={newCostItem.pricePerUnit}
-                            onChange={handleCostItemChange}
-                            placeholder="Ej: 45.50"
-                            min="0"
-                            step="0.01"
-                            required
-                          />
-                        </div>
-                        <div className="form_group">
-                          <label>Dosis:</label>
-                          <input
-                            type="number"
-                            name="dosage"
-                            className="form_control"
-                            value={newCostItem.dosage}
-                            onChange={handleCostItemChange}
-                            placeholder="Ej: 2.5"
-                            min="0"
-                            step="0.1"
-                            required
-                          />
-                        </div>
+                {showCostForm && (
+                  <div className="cost_form">
+                    <div className="form_row">
+                      <div className="form_group">
+                        <label>Nombre del insumo:</label>
+                        <input
+                          type="text"
+                          name="name"
+                          className="form_control"
+                          value={newCostItem.name}
+                          onChange={handleCostItemChange}
+                          placeholder="Ej: Fertilizante"
+                          required
+                        />
                       </div>
-                      <div className="form_buttons">
-                        <button
-                          type="button"
-                          className="cancel_btn"
-                          onClick={() => setShowCostForm(false)}
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          type="button"
-                          className="add_btn"
-                          onClick={addCostItem}
-                        >
-                          Agregar
-                        </button>
+                      <div className="form_group">
+                        <label>Precio por unidad:</label>
+                        <input
+                          type="number"
+                          name="pricePerUnit"
+                          className="form_control"
+                          value={newCostItem.pricePerUnit}
+                          onChange={handleCostItemChange}
+                          placeholder="Ej: 45.50"
+                          min="0"
+                          step="0.01"
+                          required
+                        />
+                      </div>
+                      <div className="form_group">
+                        <label>Dosis:</label>
+                        <input
+                          type="number"
+                          name="dosage"
+                          className="form_control"
+                          value={newCostItem.dosage}
+                          onChange={handleCostItemChange}
+                          placeholder="Ej: 2.5"
+                          min="0"
+                          step="0.1"
+                          required
+                        />
                       </div>
                     </div>
-                  )}
-                </div>
-
-                {/* Lista de insumos */}
-                <div className="cost_items_list" ref={costListRef}>
-                  {costItems.map((item) => (
-                    <div key={item.id} className="cost_item">
-                      <div className="cost_item_details">
-                        <div className="cost_item_name">{item.name}</div>
-                        <div className="cost_item_specs">
-                          ${item.pricePerUnit} × {item.dosage} = $
-                          {item.total.toFixed(2)}
-                        </div>
-                      </div>
+                    <div className="form_buttons">
                       <button
                         type="button"
-                        className="remove_item_btn"
-                        onClick={() => removeCostItem(item.id)}
+                        className="cancel_btn"
+                        onClick={() => setShowCostForm(false)}
                       >
-                        ×
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        className="add_btn"
+                        onClick={addCostItem}
+                      >
+                        Agregar
                       </button>
                     </div>
-                  ))}
-                </div>
-
-                {/* Total de costos de producción */}
-                {costItems.length > 0 && (
-                  <div className="production_costs_total">
-                    <strong>Total costos de producción:</strong> $
-                    {calculateTotalProductionCosts().toFixed(2)}
                   </div>
                 )}
               </div>
 
-              {/* Sección de Ingreso neto */}
-              <div className="net_income_section">
-                <div className="form_group">
-                  <label>Ingreso neto estimado:</label>
+              <div className="cost_items_list" ref={costListRef}>
+                {costItems.map((item) => (
+                  <div key={item.id} className="cost_item">
+                    <div className="cost_item_details">
+                      <div className="cost_item_name">{item.name}</div>
+                      <div className="cost_item_specs">
+                        ${item.pricePerUnit} × {item.dosage} = $
+                        {item.total.toFixed(2)}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="remove_item_btn"
+                      onClick={() => removeCostItem(item.id)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {costItems.length > 0 && (
+                <div className="form_group result">
+                  <label>Total costos de producción:</label>
                   <input
                     type="text"
                     className="form_control"
-                    value={`$${calcularIngresoNeto().toFixed(2)}`}
+                    value={`$${calculateTotalProductionCosts().toFixed(2)}`}
                     disabled
                   />
                 </div>
-              </div>
+              )}
+            </section>
+          </form>
+        </div>
+      )}
 
-              <button type="submit" className="guardar_caso_btn">
-                Guardar Caso
-              </button>
-            </form>
+      {selectedCrop && cropDetails && (
+        <div className="resultado_final_section">
+          <h3>Resultado Final</h3>
+          <div className="form_group result">
+            <label>Ingreso neto estimado:</label>
+            <input
+              type="text"
+              className="form_control"
+              value={`$${calcularIngresoNeto().toFixed(2)}`}
+              disabled
+            />
+          </div>
+          <div className="form_actions">
+            <button
+              type="submit"
+              className="guardar_caso_btn"
+              onClick={handleSubmit}
+            >
+              Guardar Caso
+            </button>
           </div>
         </div>
       )}
+
       <div className="flex_container">
         <Link to="/0">
           <button className="crear_caso_btn">Atras</button>
