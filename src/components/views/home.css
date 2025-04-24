@@ -72,13 +72,32 @@
 }
 
 .crear_caso {
-  padding: 9px 19px;
-  background-color: rgba(22, 73, 1, 0.322);
-  font-family: "Montserrat", sans-serif !important;
+  padding: 12px 24px;
+  background-color: rgba(22, 73, 1, 0.8);
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
   border: none;
-  border-radius: 10px;
-  color: rgb(255, 255, 255);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 100px auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.crear_caso:hover {
+  background-color: rgba(22, 73, 1, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.crear_caso:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .hero_div_2 h4 {
   font-weight: 200;
   color: rgba(255, 255, 255, 0.801);
@@ -119,4 +138,8 @@
 
 .icono_precio_baja {
   color: red;
+}
+
+.hero_section_container a {
+  text-decoration: none;
 }
