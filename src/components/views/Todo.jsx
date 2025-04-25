@@ -39,10 +39,28 @@ const Todo = () => {
   };
 
   // Primero filtramos las tareas pendientes (done: false)
-  const pendingTasks = tasks.filter((task) => !task.done);
+  const pendingTasks = tasks
+    .filter((task) => !task.done)
+    .sort((a, b) => {
+      // Si existe createdAt, usarlo para ordenar
+      if (a.createdAt && b.createdAt) {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      // Si no existe createdAt, usar el ID (asumiendo que IDs más altos son más recientes)
+      return b.id - a.id;
+    });
 
   // Luego filtramos las tareas completadas (done: true)
-  const completedTasks = tasks.filter((task) => task.done);
+  const completedTasks = tasks
+    .filter((task) => task.done)
+    .sort((a, b) => {
+      // Si existe createdAt, usarlo para ordenar
+      if (a.createdAt && b.createdAt) {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      // Si no existe createdAt, usar el ID (asumiendo que IDs más altos son más recientes)
+      return b.id - a.id;
+    });
 
   // Categorías predefinidas
   const categories = [
@@ -242,13 +260,13 @@ const Todo = () => {
 
       {/* Sección de tareas completadas */}
       <div className="completed-tasks">
-        <h3>Tareas Completadas</h3>
+        <h3>Tareas Completadas (revisar) </h3>
         {categories.map((category) => {
           const categoryTasks = groupedCompletedTasks[category];
           if (categoryTasks) {
             return (
               <div key={category} className="category-group">
-                <h4>{category}</h4>
+                {/* <h4>{category}</h4> */}
                 {categoryTasks.map((task) => (
                   <div key={task.id} className="task-item completed">
                     <div className="task-content">

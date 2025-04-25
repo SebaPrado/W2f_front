@@ -13,11 +13,17 @@ function Dashboard() {
   const [showBulkModal, setShowBulkModal] = useState(false);
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [localTasks, setLocalTasks] = useState(initialTasks);
+  const [formData, setFormData] = useState({
+    crop_id: "",
+    price_uss: "",
+    created_at: new Date().toISOString().split("T")[0],
+  });
   const [newPrice, setNewPrice] = useState({
     price_uss: "",
     created_at: new Date().toISOString().split("T")[0],
   });
   const [bulkPrices, setBulkPrices] = useState({});
+  const [users, setUsers] = useState([]);
 
   // Mapeo de IDs a nombres de cultivos
   const cropNames = {
@@ -40,18 +46,39 @@ function Dashboard() {
       try {
         console.log("Iniciando petición de precios");
         setLoading(true);
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/crops_prices`
+
+        // Configuración de Axios
+        const axiosConfig = {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        };
+
+        // Obtener precios para todos los cultivos
+        const promises = Object.keys(cropNames).map(
+          (cropId) =>
+            axios
+              .get(
+                `${import.meta.env.VITE_API_URL}/crops_prices/crop/${cropId}`,
+                axiosConfig
+              )
+              .then((response) => response.data)
+              .catch(() => []) // Ignoramos los errores 404 ya que son falsos positivos
         );
-        console.log("Respuesta recibida:", response.data);
-        setCropPrices(response.data);
-        setError(null);
+
+        const responses = await Promise.all(promises);
+        const allPrices = responses.flat(); // Aplanamos el array de arrays
+
+        console.log("Total de precios cargados:", allPrices.length);
+        if (allPrices.length === 0) {
+          setError("No se pudieron cargar los precios de ningún cultivo");
+        } else {
+          setCropPrices(allPrices);
+          setError(null);
+        }
       } catch (error) {
         console.error("Error al obtener precios de cultivos:", error);
-        console.log(
-          "URL utilizada:",
-          `${import.meta.env.VITE_API_URL}/crops_prices`
-        );
         setError("Error al cargar los precios de cultivos");
       } finally {
         setLoading(false);
@@ -61,23 +88,34 @@ function Dashboard() {
     fetchCropPrices();
   }, []);
 
-  // Inicializar bulkPrices con todos los cultivos
+  // Inicializar bulkPrices con los últimos precios disponibles
   useEffect(() => {
-    const initialBulkPrices = {};
-    Object.keys(cropNames).forEach((cropId) => {
-      // Asignar valores predeterminados según el cultivo
-      if (cropId === "2" || cropId === "3") {
-        // Maíz y Sorgo
-        initialBulkPrices[cropId] = "200";
-      } else if (cropId === "6" || cropId === "7") {
-        // Canola y Girasol
-        initialBulkPrices[cropId] = "530";
-      } else {
-        initialBulkPrices[cropId] = "300";
-      }
-    });
-    setBulkPrices(initialBulkPrices);
-  }, []);
+    const getLatestPrices = () => {
+      const latestPrices = {};
+      Object.keys(cropNames).forEach((cropId) => {
+        // Encontrar el último precio disponible para cada cultivo
+        const pricesForCrop = cropPrices
+          .filter((p) => p.crop_id == cropId)
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        if (pricesForCrop.length > 0) {
+          latestPrices[cropId] = pricesForCrop[0].price_uss.toString();
+        } else {
+          // Valores por defecto si no hay precios previos
+          if (cropId === "2" || cropId === "3") {
+            latestPrices[cropId] = "200";
+          } else if (cropId === "6" || cropId === "7") {
+            latestPrices[cropId] = "530";
+          } else {
+            latestPrices[cropId] = "300";
+          }
+        }
+      });
+      return latestPrices;
+    };
+
+    setBulkPrices(getLatestPrices());
+  }, [cropPrices]);
 
   const [bulkDate, setBulkDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -86,15 +124,14 @@ function Dashboard() {
   // Manejar cambios en el formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   // Activar modo de edición para un precio
   const handleEdit = (price) => {
-    // Formatear la fecha para el input type="date" (YYYY-MM-DD)
     const dateObj = new Date(price.created_at);
     const formattedDate = dateObj.toISOString().split("T")[0];
 
@@ -109,24 +146,28 @@ function Dashboard() {
   // Cancelar la edición
   const handleCancel = () => {
     setEditMode({ id: null, active: false });
+    setFormData({
+      crop_id: "",
+      price_uss: "",
+      created_at: new Date().toISOString().split("T")[0],
+    });
   };
 
   // Guardar los cambios
   const handleSave = async (id) => {
     try {
-      await axios.put(
+      const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/crops_prices/${id}`,
         formData
       );
 
-      // Actualizar la lista de precios
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/crops_prices`
+      // Actualizar el precio en el estado local
+      setCropPrices((prevPrices) =>
+        prevPrices.map((price) => (price.id === id ? response.data : price))
       );
-      setCropPrices(response.data);
 
       // Salir del modo edición
-      setEditMode({ id: null, active: false });
+      handleCancel();
     } catch (error) {
       console.error("Error al actualizar precio:", error);
       setError("Error al guardar los cambios");
@@ -275,6 +316,22 @@ function Dashboard() {
     }
   };
 
+  // Obtener usuarios
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users`
+        );
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   if (loading)
     return (
       <div className="dashboard-container">
@@ -298,7 +355,7 @@ function Dashboard() {
           className="bulk-edit-btn"
           onClick={() => setShowBulkModal(true)}
         >
-          Editar Todos los Precios 
+          Editar Todos los Precios
         </button>
         <div className="prices-table">
           {/* Cabeceras */}
@@ -345,7 +402,7 @@ function Dashboard() {
                       <div className="edit-mode">
                         <input
                           type="number"
-                          step="0.01"
+                          step="1"
                           name="price_uss"
                           value={formData.price_uss}
                           onChange={handleInputChange}
@@ -424,7 +481,40 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* -------------------------             To do List            -------------------------------- */}
+      {/* Sección de usuarios antes del Todo list */}
+      <div className="dashboard-section">
+        <h2>Usuarios Registrados</h2>
+        <div className="users-table-container">
+          <table className="users-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Contraseña</th>
+                <th>Fecha de Registro</th>
+                <th>Última Actualización</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.last_name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.password}</td>
+                  <td>
+                    {new Date(user.created_at).toLocaleDateString("es-AR")}
+                  </td>
+                  <td>
+                    {new Date(user.updated_at).toLocaleDateString("es-AR")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <div className="dashboard-section">
         <h2>Listado de Tareas</h2>
@@ -453,7 +543,7 @@ function Dashboard() {
                   <label>{cropName}:</label>
                   <input
                     type="number"
-                    step="5"
+                    step="1"
                     value={bulkPrices[cropId]}
                     onChange={(e) =>
                       setBulkPrices({

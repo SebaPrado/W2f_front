@@ -6,7 +6,6 @@ import { authUser } from "../../redux/userSlice";
 import { Link } from "react-router-dom";
 import "/src/login.css";
 
-
 // import { notify } from "../../notify";
 
 function SignUp() {
@@ -16,11 +15,35 @@ function SignUp() {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //   const [phone, setPhone] = useState("");
-  //   const [address, setAddress] = useState("");
+  const [error, setError] = useState("");
+
+  const validateForm = () => {
+    if (!firstname || !lastname || !email || !password) {
+      setError("Todos los campos son obligatorios");
+      return false;
+    }
+
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres");
+      return false;
+    }
+
+    if (!email.includes("@")) {
+      setError("Por favor ingresa un email válido");
+      return false;
+    }
+
+    setError("");
+    return true;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const createUser = async () => {
       try {
         const axiosConfig = {
@@ -28,17 +51,23 @@ function SignUp() {
           url: `${import.meta.env.VITE_API_URL}/users`,
           data: {
             name: firstname,
-            lastname: lastname,
+            last_name: lastname,
             email: email,
             password: password,
-            //phone: phone,
           },
         };
         const response = await axios(axiosConfig);
-        // notify(response.data.msg);
+        console.log("Respuesta del servidor:", response.data);
         !response.data.constraint && navigate("/");
       } catch (err) {
-        console.log(err);
+        console.error("Error detallado:", err.response?.data);
+        setError(err.response?.data?.message || "Error al crear el usuario");
+        console.log("Datos enviados:", {
+          name: firstname,
+          last_name: lastname,
+          email: email,
+          password: password,
+        });
       }
     };
     createUser();
@@ -57,9 +86,14 @@ function SignUp() {
               </div>
             </div>
             <div className="col-md-7 col-lg-5">
-              <div className="bg-white p-5 login-second-box ">
+              <div className="bg-white p-5 login-second-box">
                 <div className="mb-4">
                   <h3>Create an Account</h3>
+                  {error && (
+                    <div className="alert alert-danger" role="alert">
+                      {error}
+                    </div>
+                  )}
                 </div>
                 <div className="d-flex flex-column justify-content-around align-items-center">
                   <form className="w-100" onSubmit={handleSubmit}>
@@ -87,7 +121,7 @@ function SignUp() {
 
                     <div className="input-group mb-4">
                       <input
-                        type="text"
+                        type="email"
                         className="form-control"
                         id="email"
                         placeholder="Email"
@@ -101,22 +135,12 @@ function SignUp() {
                         type="password"
                         className="form-control"
                         id="password"
-                        placeholder="Password"
+                        placeholder="Password (mínimo 6 caracteres)"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        minLength="6"
                       />
                     </div>
-
-                    {/* <div className="input-group mb-4">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="phone"
-                        placeholder="Phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                      />
-                    </div> */}
 
                     <button
                       className="btn login-custom-btn mb-5 w-100 auth-btn text-white"
@@ -125,15 +149,15 @@ function SignUp() {
                       Sign Up
                     </button>
                     <div>
-                    <h6>
-                      New to our website?{" "}
-                      <Link
-                        className="text-secondary-emphasis  LoginToSignUpButton"
-                        to={`/login`}
-                      >
-                        Login
-                      </Link>
-                    </h6>
+                      <h6>
+                        Already have an account?{" "}
+                        <Link
+                          className="text-secondary-emphasis LoginToSignUpButton"
+                          to={`/login`}
+                        >
+                          Login
+                        </Link>
+                      </h6>
                     </div>
                   </form>
                 </div>

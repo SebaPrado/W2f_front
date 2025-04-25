@@ -50,9 +50,9 @@ h2 {
 .header-cell {
   background-color: #237c23;
   color: white;
-  padding: 6px 4px;
+  padding: 8px 6px;
   text-align: center;
-  font-weight: 200;
+  font-weight: 400 !important;
   border-bottom: 1px solid #eaeaea;
   border-right: 1px solid #eaeaea;
   font-size: 12px !important;
@@ -62,9 +62,9 @@ h2 {
 .crop-name {
   background-color: #237c23;
   color: white;
-  padding: 6px 4px;
+  padding: 8px 6px;
   text-align: left;
-  font-weight: 200;
+  font-weight: 400 !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -95,30 +95,52 @@ h2 {
 
 /* Celdas de precios */
 .price-cell {
-  background-color: white;
-  padding: 6px 4px;
+  padding: 8px 6px;
   text-align: center;
   position: relative;
   border-bottom: 1px solid #eaeaea;
   border-right: 1px solid #eaeaea;
+  transition: background-color 0.2s ease;
 }
 
 /* Resaltar celda del día actual */
 .today {
-  background-color: #f0f7f0;
+  background-color: #e8f5e9 !important;
 }
 
-/* Para filas alternadas */
-.row-odd .price-cell {
-  background-color: white;
-}
-
-.row-even .price-cell {
+/* Estilos para filas alternadas */
+.prices-table > .price-cell:nth-child(18n + 10),
+.prices-table > .price-cell:nth-child(18n + 11),
+.prices-table > .price-cell:nth-child(18n + 12),
+.prices-table > .price-cell:nth-child(18n + 13),
+.prices-table > .price-cell:nth-child(18n + 14),
+.prices-table > .price-cell:nth-child(18n + 15),
+.prices-table > .price-cell:nth-child(18n + 16),
+.prices-table > .price-cell:nth-child(18n + 17),
+.prices-table > .price-cell:nth-child(18n + 18) {
   background-color: #f5f5f5;
 }
 
-.row-even .today {
-  background-color: #e8f5e9;
+.prices-table > .price-cell:nth-child(18n + 1),
+.prices-table > .price-cell:nth-child(18n + 2),
+.prices-table > .price-cell:nth-child(18n + 3),
+.prices-table > .price-cell:nth-child(18n + 4),
+.prices-table > .price-cell:nth-child(18n + 5),
+.prices-table > .price-cell:nth-child(18n + 6),
+.prices-table > .price-cell:nth-child(18n + 7),
+.prices-table > .price-cell:nth-child(18n + 8),
+.prices-table > .price-cell:nth-child(18n + 9) {
+  background-color: white;
+}
+
+.price-cell:hover {
+  background-color: #e8f5e9 !important;
+}
+
+/* Eliminar las clases row-odd y row-even anteriores ya que usamos nth-child */
+.row-odd .price-cell,
+.row-even .price-cell {
+  background-color: transparent;
 }
 
 /* Para precios no disponibles */
@@ -404,4 +426,58 @@ h2 {
   .bulk-price-item input {
     height: 32px;
   }
+}
+
+.users-table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.users-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.users-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.users-table td {
+  color: #666;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.users-table tr:nth-child(odd) {
+  background-color: white;
+}
+
+.users-table tr:hover {
+  background-color: #e8f5e9;
+  transition: background-color 0.2s ease;
+}
+
+.users-table th {
+  background-color: #237c23;
+  color: white;
+  font-weight: 400 !important;
 }
