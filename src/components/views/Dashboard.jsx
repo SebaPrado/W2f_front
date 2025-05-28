@@ -53,30 +53,47 @@ function Dashboard() {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
+          // Agregamos un timeout más largo para asegurar que las peticiones tengan tiempo de completarse
+          timeout: 10000,
         };
 
-        // Obtener precios para todos los cultivos
-        const promises = Object.keys(cropNames).map(
-          (cropId) =>
-            axios
-              .get(
-                `${import.meta.env.VITE_API_URL}/crops_prices/crop/${cropId}`,
-                axiosConfig
-              )
-              .then((response) => response.data)
-              .catch(() => []) // Ignoramos los errores 404 ya que son falsos positivos
-        );
+        // Crear un array de promesas para todas las peticiones
+        const promises = [];
 
+        // Iteramos secuencialmente para evitar sobrecarga
+        for (const cropId of Object.keys(cropNames)) {
+          try {
+            const response = await axios.get(
+              `${import.meta.env.VITE_API_URL}/crops_prices/crop/${cropId}`,
+              axiosConfig
+            );
+            promises.push(response.data);
+          } catch (error) {
+            console.error(
+              `Error al obtener precios para cultivo ${cropNames[cropId]}:`,
+              error
+            );
+            promises.push([]);
+          }
+          // Agregamos un pequeño delay entre peticiones
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+
+        // Esperamos a que todas las promesas se resuelvan
         const responses = await Promise.all(promises);
-        const allPrices = responses.flat(); // Aplanamos el array de arrays
+        const allPrices = responses.flat();
 
         console.log("Total de precios cargados:", allPrices.length);
-        if (allPrices.length === 0) {
-          setError("No se pudieron cargar los precios de ningún cultivo");
-        } else {
-          setCropPrices(allPrices);
-          setError(null);
-        }
+        console.log(
+          "Precios por cultivo:",
+          responses.map((r, i) => ({
+            cultivo: cropNames[Object.keys(cropNames)[i]],
+            cantidadPrecios: r.length,
+          }))
+        );
+
+        setCropPrices(allPrices);
+        setError(null);
       } catch (error) {
         console.error("Error al obtener precios de cultivos:", error);
         setError("Error al cargar los precios de cultivos");
